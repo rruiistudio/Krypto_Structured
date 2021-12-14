@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="116px" height="154px" viewBox="0 0 116 154" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Rectangle</title>
+    <defs>
+        <path d="M938,243.910912 L1030,243.910912 C1034.41828,243.910912 1038,247.492634 1038,251.910912 L1038,376.910912 C1038,381.32919 1034.41828,384.910912 1030,384.910912 L1011,384.910912 L1011,384.910912 L997.5,384.910912 L990.75,384.910912 L984,390.157257 L977.25,384.910912 L970.5,384.910912 L957,384.910912 L938,384.910912 C933.581722,384.910912 930,381.32919 930,376.910912 L930,251.910912 C930,247.492634 933.581722,243.910912 938,243.910912 Z" id="path-1"></path>
+        <filter x="-6.5%" y="-3.4%" width="113.0%" height="109.6%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Treasurehunt" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Rectangle" transform="translate(-926.000000, -242.000000)">
+            <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+            <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-1"></use>
+        </g>
+    </g>
+</svg>

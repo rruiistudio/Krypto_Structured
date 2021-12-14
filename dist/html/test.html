@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,
+            initial-scale=1, shrink-to-fit=no" />
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
+
+    <title>
+        test
+    </title>
+</head>
+
+<body>
+    <form>
+        <input id="login" class="input" type="text">
+        <input type="submit" id='fetchBtn' value= "submit">
+
+    </form>
+
+    <div class="container">
+        <ul id="list"></ul>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js,
+         then Bootstrap JS -->
+    <script>
+        let fetchBtn = document.getElementById("fetchBtn");
+        let input = document.getElementById("login").value;
+        //input = JSON.stringify(input)
+
+        //input = JSON.parse(input)
+
+        fetchBtn.addEventListener("click", buttonclickhandler);
+        let data = { walletId: input };
+        let URL = "https://api.kryptomon.co/egg-hunt/getUser.php";
+
+
+        function buttonclickhandler() {
+            
+            var SendInfo = JSON.stringify(data);
+            console.log(SendInfo)
+
+            $.post(URL, SendInfo, handledata)
+        }
+
+        function handledata(response) {
+            //var arr = JSON.stringify(response);
+            var g = JSON.parse(response)
+            console.log(response)
+            let id = g.status;
+            console.log(id);
+
+            if (id == 'listed') {
+                console.log('did something')
+            }
+
+        }
+
+    </script>
+
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+        </script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+        </script>
+</body>
+
+</html>

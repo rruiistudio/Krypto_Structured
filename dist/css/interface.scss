@@ -1,0 +1,80 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+#page{
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    background-color: #361b36;
+    color: white;
+    text-align: center;
+
+}
+
+#controls{
+    position: absolute; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 40vw; 
+    height: 80vh; 
+    background-color: white; 
+    opacity: 100%;
+    border-radius: 3%;
+
+    #logo{
+        width: 20%; 
+        opacity: 100%;
+        padding-bottom: 20%; 
+        margin-top: -20%; 
+    }
+}
+
+#boolean{
+    padding-top: 10%; 
+    display: flex; 
+    flex-direction: row !important;
+}
+
+.boolean:active{
+    background-color: rgb(228, 182, 255);
+}
+
+#newdata{
+    height: 50px; 
+    width: 300px; 
+    border-radius: 15px;
+    border-color: lightblue;
+}
+
+.boolean{
+    height: 50px; 
+    width: 200px; 
+    color: black; 
+    background-color:white;
+    opacity: 100% !important;
+    border-radius: 15px;
+    border-color: #361b36;
+}
+
+@keyframes spin {
+    from {
+        width: 15%; 
+        opacity: 50%; 
+        transform: rotate(0deg);
+      }
+      to {
+        width: 10%;
+        opacity: 100%; 
+        transform: rotate(360deg);
+      }
+  }
