@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack",
+    "build": "webpack --config webpack.config.js",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d src"
   },
@@ -38,20 +38,23 @@
     "express": "^4.17.1",
     "lodash": "^4.17.21",
     "papaparse": "^5.3.1",
+    "path-browserify": "^1.0.1",
     "react": "^17.0.2",
     "serve-favicon": "^2.5.0",
     "serve-static": "^1.14.1",
-    "turf": "^3.0.14"
+    "turf": "^3.0.14",
+    "util": "^0.12.4"
   },
   "devDependencies": {
     "@babel/core": "^7.15.8",
     "@babel/preset-env": "^7.15.8",
     "@babel/preset-react": "^7.14.5",
+    "@webpack-cli/generators": "^1.1.0",
     "babelify": "^10.0.0",
     "browserify": "^17.0.0",
     "gh-pages": "^3.2.3",
-    "gulp": "^3.9.1",
-    "parcel-bundler": "^1.12.5",
+    "gulp": "^4.0.2",
+    "parcel-bundler": "^1.9.4",
     "vinyl-source-stream": "^2.0.0",
     "webpack": "^5.65.0",
     "webpack-cli": "^4.9.1"
