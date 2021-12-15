@@ -6,9 +6,9 @@ body {
 
 @font-face {
     font-family: 'mister_london';
-    src: url('/font/mister_london_sans-webfont.woff2') format('woff2'),
-         url('/font/mister_london_sans-webfont.woff') format('woff'),
-         url('/font/mister_london_sans.otf') format('opentype');
+    src: url('/css/font/mister_london_sans-webfont.woff2') format('woff2'),
+         url('/css/font/mister_london_sans-webfont.woff') format('woff'),
+         url('/css/font/mister_london_sans.otf') format('opentype');
     font-weight: normal;
     font-style: normal;
 
@@ -24,7 +24,6 @@ body {
     overflow-x: hidden;
     margin: 0;
 }
-
 
 
 .example::-webkit-scrollbar {

@@ -31,6 +31,7 @@ function createscreen(){
 
 function destroyscreen(){
     div.style.animation = "fadeOut 1s";
+    div.style.zIndex = "-1";
     div.remove(); 
 }
 

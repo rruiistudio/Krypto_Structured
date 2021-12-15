@@ -182,7 +182,6 @@ export function appendLocation() {
 }
 
  
-
 function changeScreen() {
     //let routetoggle = false; 
     counter++
