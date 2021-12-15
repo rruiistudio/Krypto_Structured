@@ -2,9 +2,9 @@
   "name": "kriptomon_micro-website",
   "version": "1.0.0",
   "description": "treasure hunt microsite",
-  "main": "app.js",
+  "main": "index.html",
   "scripts": {
-    "start": "node index.js",
+    "start": "node login.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
     "predeploy": "npm run build",
