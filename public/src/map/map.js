@@ -50,7 +50,7 @@ redirect();
 // add a buffer --> on map load in here
 
 console.log(userlocation)
-export var map = setupMap(userlocation);
+export var map = setupMap([-2.24, 53.48]);
 let user = marker(userlocation);
 
 

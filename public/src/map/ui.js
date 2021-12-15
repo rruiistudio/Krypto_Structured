@@ -59,7 +59,7 @@ function appendElement(elements) {
 
 //Screen1: 
 
-let k_icon = "../images//Kryptomon_character.png";
+let k_icon = "../images//Kryptomon_Character.png";
 let n_button = "../images//next_button.png";
 let a_popup = "../images//bubbleA.png";
 
