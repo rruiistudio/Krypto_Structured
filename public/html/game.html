@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+
+<head>
+    <link rel="stylesheet" href="../css/main.css">
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css' rel='stylesheet' />
+    <link rel="stylesheet"
+        href=https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.css
+        type="text/css" />
+
+    <link rel="stylesheet"
+        href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.css"
+        type="text/css">
+
+    <link rel="icon" type="image/jpg" href="../images/kLogo.png" />
+
+
+
+
+    <script src=https://cdnjs.cloudflare.com/ajax/libs/mapbox-polyline/1.1.1/polyline.js></script>
+
+    <script
+        src=https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.js></script>
+    <script
+        src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js"></script>
+
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.js'></script>
+    <script src='https://unpkg.com/@turf/turf@6/turf.min.js'></script>
+
+    <meta name='viewport' content='width=device-width, height=device-height, user-scalable=no'/>
+
+    <title>Treasure Hunt</title>
+</head>
+
+
+<html>
+
+<body>
+    <div id='cont'>
+        <div id='head'>
+            <img src="../images/top_header.png" id="header">
+        </div>
+
+        <div id='midsection'>
+            <div id="artwork_container">
+                <img id="art" src="../images/pin_icon.svg" width="30%">
+                <div id="p">
+                    <p>First, we need your location</p>
+                </div>
+            </div>
+            <div id="button_container" class="button">
+                <img id="game_button" class="button" src="../images/approve_button.png">
+            </div>
+        </div>
+
+        <div id="geocoder" class="geocoder"></div>
+
+        <div class="corners" id="corners" width=100% height=100%>
+            <img src="../images/sp_left.png" id="leftP" width="35%" height="35%">
+            <img src="../images/sp_right.png" id="rightP" width="35%" height="35%">
+
+        </div>
+        <div id="util" width=100% height=100%></div>
+        <div id="navbox" width=100% height=100%>
+            <div id="instructions" width="60vh" height="80vh">
+                <div id="textarea" width="40vh" height="70vh" position="relative"></div>
+            </div>
+        </div>
+
+        <div id='map' class='obj'></div>
+
+    </div>
+
+</body>
+
+<script type="module" src='/src/utility/loadingscreen.js'></script>
+<script type="module" src='/src/map/ui.js' defer></script>
+<script type="module" src='/src/map/map.js' defer></script>
+<script type="module" src='/src/map/mapfunctions.js' defer></script>
+
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+    </script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+    </script>
+
+
+</html>

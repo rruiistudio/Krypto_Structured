@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="../css/interface.css">
+    <link rel="icon" type="image/jpg" href="../images/kLogo.png" />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="/src/modules/require.js"></script>
+    <script src="papaparse.min.js"></script>
+    <title>Interface</title>
+</head>
+
+<body id="cont">
+    <div id='page'>
+        <div id='controls'>
+            <img id="logo" src="../images/kLogo.png">
+            <form id="form">
+                <input id='newdata' type="file" accept=".csv" required >
+                <input type="submit" value="Submit" id="button" class="boolean">
+              </form>
+            <div id="switch">
+                <div id="boolean">
+                    <button class="boolean">Generate json</button>
+                    <button class="boolean">Toggle csv box placement</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
+<script type="module" src='/src/utility/loadingscreen.js'></script>
+<script type="module" src='/src/interface/inputhandler.js' defer></script>
