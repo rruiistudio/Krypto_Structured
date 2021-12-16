@@ -102,7 +102,6 @@ export function appendLocation() {
     d.appendChild(navig);
     d.appendChild(locate);
     
-
     function toggleNav() {
         count++
         console.log('clickedy clicked')

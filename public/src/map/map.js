@@ -55,7 +55,7 @@ let user = marker(userlocation);
 
 
 //INITIALIZE BOXES
-await storeBox(userlocation)
+storeBox(userlocation)
 console.log(boxlist)
 
 distA.push(calculateDistance(boxlist[0], userlocation),
@@ -180,18 +180,6 @@ function convertInactive(list, index) {
 }
 // TO FIX THIS ONE
 
-/*
-function replaceClass(list) {
-        let el = document.getElementByClass('mark');
-        el.forEach(i => {
-            let index = el.indexOf(i);
-            if (list[index] == 'found') {
-                    el.classList.remove('mark');
-                el.classList.add('boxfound');
-            }
-        })
-}
-*/
 
 function passboxfound(index) {
         var api_link = 'https://api.kryptomon.co/egg-hunt/openBox.php';
@@ -305,8 +293,8 @@ export async function spawnBox(userlocation) {
 }
 
 
-async function storeBox(userlocation) {
-        await spawnBox(userlocation);
+function storeBox(userlocation) {
+        spawnBox(userlocation);
         let box1 = localStorage.getItem('box1');
         box1 = box1.split(',')
         box1 = [parseFloat(box1[0]), parseFloat(box1[1])]
