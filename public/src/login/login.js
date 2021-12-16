@@ -1,7 +1,37 @@
 //GET HTML ELEMENTS
 
 import loadconfirm, { redirect } from '../utility/utilities.js';
+//import location from '../map/mapfunctions.js';
 let text = document.getElementById('verif');
+
+
+var options = {
+    enableHighAccuracy: true,
+    trackUserLocation: true,
+
+};
+
+
+export function success(pos) {
+    let long = pos.coords.longitude;
+    let lat = pos.coords.latitude;
+    localStorage.setItem('userLong', long)
+    localStorage.setItem('userLat', lat)
+    console.log('items stored')
+
+}
+
+export function error(err) {
+    console.warn(`ERROR(${err.code}): ${err.message}`);
+}
+
+
+
+export function location() {
+    navigator.geolocation.getCurrentPosition(success, error, options)
+}
+
+location();
 
 function getValue() {
     value = document.getElementById('login').value;

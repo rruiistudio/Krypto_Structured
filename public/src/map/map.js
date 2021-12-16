@@ -1,6 +1,7 @@
 import mobileAndTabletCheck, { redirect } from '../utility/utilities.js';
 import routetoggle from './ui.js';
-import userlocation from './mapfunctions.js'; // import initial user location
+//import userlocation from './mapfunctions.js'; // import initial user location
+import location from './mapfunctions.js';
 
 
 //DECLARE VARIABLES
@@ -8,6 +9,7 @@ let long
 let lat
 let usermarker
 let filter
+let coords
 let radiusLayer = 'radius'
 let searchradius = 2;
 
@@ -17,7 +19,7 @@ let elIndex;
 let boxlist;
 
 
-
+//location();
 let playerID = localStorage.getItem('walletID');
 console.log(playerID)
 
@@ -48,6 +50,9 @@ redirect();
 //INITIALIZE MAP
 
 // add a buffer --> on map load in here
+coords = [localStorage.getItem('userLong'), localStorage.getItem('userLat')]
+console.log('items retrieved')
+let userlocation = [parseFloat(coords[0]), parseFloat(coords[1])];
 
 console.log(userlocation)
 export var map = setupMap([-2.24, 53.48]);
@@ -55,7 +60,10 @@ let user = marker(userlocation);
 
 
 //INITIALIZE BOXES
-storeBox(userlocation)
+
+
+
+boxlist = storeBox(userlocation)
 console.log(boxlist)
 
 distA.push(calculateDistance(boxlist[0], userlocation),
@@ -275,20 +283,18 @@ export async function spawnBox(userlocation) {
       
         console.log(json)
 
-        localStorage.setItem('box1', json.features[0].geometry.coordinates)
-        localStorage.setItem('box2', json.features[1].geometry.coordinates)
-        localStorage.setItem('box3', json.features[2].geometry.coordinates)
-
         if (localStorage.getItem('box1') == null) {
-                
+                let b = localStorage.setItem('box1', json.features[0].geometry.coordinates)
+                console.log(b);
+
         }
 
         if (localStorage.getItem('box2') == null) {
-                
+                localStorage.setItem('box2', json.features[1].geometry.coordinates)
         }
 
         if (localStorage.getItem('box3') == null) {
-                
+                localStorage.setItem('box3', json.features[2].geometry.coordinates)
         }
 
         return json;

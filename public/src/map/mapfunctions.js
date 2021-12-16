@@ -56,10 +56,11 @@ export async function storeInitialLocation() {
         return coords
 }
 
-location();
+//location();
 
-coords = [localStorage.getItem('userLong'), localStorage.getItem('userLat')]
-console.log('items retrieved')
+
+//coords = [localStorage.getItem('userLong'), localStorage.getItem('userLat')]
+//console.log('items retrieved')
 
 export default userlocation = [parseFloat(coords[0]), parseFloat(coords[1])];
 console.log(userlocation)
