@@ -31,12 +31,13 @@ export function error(err) {
 }
 
 
-
 export function location() {
     navigator.geolocation.getCurrentPosition(success, error, options)
 }
 
 location();
+
+mapboxgl.accessToken = 'pk.eyJ1IjoicnJ1aWlkZXYiLCJhIjoiY2t2N3FtMjFhMDFmNzJvbzdidnpkaGxweiJ9.R0WQ2KnHg8EQ9wyWPYLQFg';
 
 export async function spawnBox(userlocation) {
     console.log("the spawn box function is running")
