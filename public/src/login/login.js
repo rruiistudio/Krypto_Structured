@@ -56,6 +56,8 @@ export async function spawnBox(userlocation) {
   
     console.log(json)
 
+    localStorage.removeItem('box_found')
+
     localStorage.removeItem('box1')
     localStorage.removeItem('box2')
     localStorage.removeItem('box3')
