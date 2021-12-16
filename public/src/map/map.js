@@ -124,7 +124,7 @@ function successLocation(position) {
 }
 
 function unlockBox(distance, closestItem, boxstatus) {
-        if (distance < 800) {
+        if (distance < 200) {
                 let m = document.getElementById('user');
                 let b = document.getElementById('cont')
                 m.classList.remove("marker");
@@ -152,14 +152,14 @@ function unlockBox(distance, closestItem, boxstatus) {
                 // -----> only append once, at the middle of the screen & destroy in 2 seconds
 
         }
-        if (distance < 750) {
+        if (distance < 150) {
                 let m = document.getElementById('user');
                 m.classList.remove("closemarker");
                 m.classList.add("closermarker");
                 console.log('super close to the target!')
                 // can add screen prompt here to show proximity
         }
-        if (distance < 500) {
+        if (distance < 25) {
                 console.log('box found, hooray!')
                 convertInactive(boxstatus, closestItem);
                 passboxfound(closestItem);
@@ -182,6 +182,7 @@ function convertInactive(list, index) {
         return list
 }
 // TO FIX THIS ONE
+
 function passboxfound(index) {
         var api_link = 'https://api.kryptomon.co/egg-hunt/openBox.php';
         var userID = localStorage.getItem('walletID')

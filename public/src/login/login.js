@@ -55,9 +55,9 @@ export async function spawnBox(userlocation) {
   
     console.log(json)
 
-    localStorage.removeItem('box1')
-    localStorage.removeItem('box2')
-    localStorage.removeItem('box3')
+    //localStorage.removeItem('box1')
+    //localStorage.removeItem('box2')
+    //localStorage.removeItem('box3')
 
     if (localStorage.getItem('box1') == null) {
             localStorage.setItem('box1', json.features[0].geometry.coordinates)
