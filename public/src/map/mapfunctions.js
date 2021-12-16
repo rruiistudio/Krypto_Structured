@@ -52,14 +52,17 @@ export function location() {
 
 
 export async function storeInitialLocation() {
-        coords = [localStorage.getItem('userLong'), localStorage.getItem('userLat')]
-        console.log('items retrieved')
+        
         return coords
 }
 
 location();
-storeInitialLocation();
+
+coords = [localStorage.getItem('userLong'), localStorage.getItem('userLat')]
+console.log('items retrieved')
+
 export default userlocation = [parseFloat(coords[0]), parseFloat(coords[1])];
+console.log(userlocation)
 
 // box handlers ---------------------------------------------------------------------------------------->
 

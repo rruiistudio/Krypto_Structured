@@ -275,16 +275,20 @@ export async function spawnBox(userlocation) {
       
         console.log(json)
 
+        localStorage.setItem('box1', json.features[0].geometry.coordinates)
+        localStorage.setItem('box2', json.features[1].geometry.coordinates)
+        localStorage.setItem('box3', json.features[2].geometry.coordinates)
+
         if (localStorage.getItem('box1') == null) {
-                localStorage.setItem('box1', json.features[0].geometry.coordinates)
+                
         }
 
         if (localStorage.getItem('box2') == null) {
-                localStorage.setItem('box2', json.features[1].geometry.coordinates)
+                
         }
 
         if (localStorage.getItem('box3') == null) {
-                localStorage.setItem('box3', json.features[2].geometry.coordinates)
+                
         }
 
         return json;
