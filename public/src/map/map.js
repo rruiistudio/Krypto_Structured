@@ -68,7 +68,7 @@ console.log(closestItem)
 
 console.log(boxlist[closestItem])
 console.log(boxlist)
-await mysterybox(boxlist[closestItem]);
+mysterybox(boxlist[closestItem]);
 
 
 

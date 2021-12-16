@@ -141,7 +141,7 @@ export async function generateRoute() {
         // initial spawnBox > retrieve 3 boxes > give each box a status > if status == available, count within the array 
 
         // add to map: 
-        mysterybox(json);
+        //mysterybox(json);
         getRoute(userlocation, firstP)
 
 }
