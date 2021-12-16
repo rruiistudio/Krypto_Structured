@@ -15,7 +15,7 @@ let button = document.getElementById('button_container');
 let ui = document.getElementById('midsection')
 
 
-button.addEventListener('touchstart', changeScreen);
+button.addEventListener('click', changeScreen);
 
 function appendElement(elements) {
 
@@ -105,7 +105,7 @@ export function appendLocation() {
 
     function toggleNav() {
         count++
-        console.log('touchstartedy touchstarted')
+        console.log('clickedy clicked')
 
         if (count == 1) {
             let b = document.getElementById('navbox');
@@ -166,7 +166,7 @@ export function appendLocation() {
 
             b.appendChild(dir);
 
-            x.addEventListener('touchstart', closeNav)
+            x.addEventListener('click', closeNav)
           
             return x;
         }
@@ -176,7 +176,7 @@ export function appendLocation() {
     }
 
     countdown(locate);
-    navig.addEventListener('touchstart', toggleNav);
+    navig.addEventListener('click', toggleNav);
     
     return navig, locate
 }

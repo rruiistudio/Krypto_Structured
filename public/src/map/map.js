@@ -58,10 +58,6 @@ let user = marker(userlocation);
 await storeBox(userlocation)
 console.log(boxlist)
 
-await mysterybox(boxlist);
-console.log(boxlist)
-
-
 distA.push(calculateDistance(boxlist[0], userlocation),
         calculateDistance(boxlist[1], userlocation),
         calculateDistance(boxlist[2], userlocation)
@@ -69,6 +65,11 @@ distA.push(calculateDistance(boxlist[0], userlocation),
 
 export var closestItem = whichBox(boxlist, boxstatus, distA)
 console.log(closestItem)
+
+console.log(boxlist[closestItem])
+console.log(boxlist)
+await mysterybox(boxlist[closestItem]);
+
 
 
 //INTIALIZE ROUTE TO CLOSEST BOX
@@ -120,7 +121,7 @@ function successLocation(position) {
 }
 
 function unlockBox(distance, closestItem, boxstatus) {
-        if (distance < 400) {
+        if (distance < 200) {
                 let m = document.getElementById('user');
                 let b = document.getElementById('cont')
                 m.classList.remove("marker");
@@ -148,14 +149,14 @@ function unlockBox(distance, closestItem, boxstatus) {
                 // -----> only append once, at the middle of the screen & destroy in 2 seconds
 
         }
-        if (distance < 250) {
+        if (distance < 150) {
                 let m = document.getElementById('user');
                 m.classList.remove("closemarker");
                 m.classList.add("closermarker");
                 console.log('super close to the target!')
                 // can add screen prompt here to show proximity
         }
-        if (distance < 150) {
+        if (distance < 25) {
                 console.log('box found, hooray!')
                 convertInactive(boxstatus, closestItem);
                 passboxfound(closestItem);
@@ -326,10 +327,8 @@ async function storeBox(userlocation) {
 
 //TO TEST ALL OF THIS 
 
-
-function mysterybox(data) {
-
-        data.forEach(element => {
+// only load markers for one box at a time
+function mysterybox(element) {
                 const el = document.createElement('div');
                 el.classList.add('mark');
                 el.id = "boxdiv";
@@ -345,7 +344,6 @@ function mysterybox(data) {
                                         )
                         )
                         .addTo(map);
-        })
 
         return elIndex, distA;
 
@@ -361,13 +359,6 @@ function calculateDistance(data, location) {
         return distance;
 
 }
-/*
-function closestPoint(distances, list) {
-        const min = Math.min(...distances);
-        let index = list.indexOf(min);
-
-        return index;
-}*/
 
 function whichBox(list, status, distances){
         let availableb = []
