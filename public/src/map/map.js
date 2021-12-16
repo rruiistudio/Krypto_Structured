@@ -259,7 +259,7 @@ function updateMarker(marker, center) {
 
 // you need to store the updated userlocation in a variable too actually
 
-export function spawnBox(userlocation) {
+export async function spawnBox(userlocation) {
         console.log("the spawn box function is running")
         var point = [userlocation[0], userlocation[1]]
         const limit = 3;
@@ -270,7 +270,7 @@ export function spawnBox(userlocation) {
                 `https://api.mapbox.com/v4/${tileset}/tilequery/${point[0]},${point[1]}.json?radius=${radius}&limit=${limit}&layers=${layers}&access_token=${mapboxgl.accessToken}`,
                 { method: 'GET' }
         );
-        const json = query.json();
+        const json = await query.json();
     
       
         console.log(json)
