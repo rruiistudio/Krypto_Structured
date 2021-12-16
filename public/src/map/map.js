@@ -296,8 +296,8 @@ export async function spawnBox(userlocation) {
 function storeBox(userlocation) {
         spawnBox(userlocation);
         let box1 = localStorage.getItem('box1');
-        box1 = box1.split(',')
-        box1 = [parseFloat(box1[0]), parseFloat(box1[1])]
+        //box1 = box1.split(',')
+        //box1 = [parseFloat(box1[0]), parseFloat(box1[1])]
 
         let box2 = localStorage.getItem('box2');
         box2 = box2.split(',')
