@@ -14,8 +14,11 @@ let container = document.getElementById('artwork_container');
 let button = document.getElementById('button_container');
 let ui = document.getElementById('midsection')
 
+let boxstatus = localStorage.getItem('box_status')
+boxstatus = JSON.parse(boxstatus);
 
-button.addEventListener('click', changeScreen);
+
+
 
 function appendElement(elements) {
 
@@ -36,7 +39,7 @@ function appendElement(elements) {
 
     button.id = "game_button";
     button.className = "button";
-    
+
 
     button.src = elements[0];
 
@@ -55,6 +58,51 @@ function appendElement(elements) {
     bdiv.replaceChild(button, oldb);
 
 }
+let nextbutton
+
+function replace(elements) {
+    // create new elements
+    const prompt = document.createElement("img");
+    const art = document.createElement("img");
+    nextbutton = document.createElement("img");
+
+    var div = document.getElementById('midsection')
+
+    // get old elements
+
+    nextbutton.id = "next_button";
+    nextbutton.style.classList = "button";
+    nextbutton.src = elements[0];
+    nextbutton.style.width = "45vw"
+    nextbutton.style.paddingTop = "20%"
+    nextbutton.classList = "button"
+
+    art.id = "art";
+    art.src = elements[1];
+    art.style.width = "25vw";
+
+
+    prompt.id = "p";
+    prompt.style.width = "70vw";
+    prompt.style.padding = "2%";
+    prompt.src = elements[2];
+
+    div.style.width = "100vw"
+    div.style.height = "100vh"
+    div.style.display = "flex"
+    div.style.flexDirection = "column"
+
+    div.style.padding = "10%"
+    div.style.alignContent = 'center'
+    div.style.alignItems = 'center'
+
+    div.appendChild(prompt)
+    div.appendChild(art)
+    div.appendChild(nextbutton)
+
+
+    return nextbutton
+}
 
 
 //Screen1: 
@@ -70,8 +118,11 @@ let a_popup = "../images//bubbleA.png";
 let g_button = "../images//go_button.png";
 let b_popup = "../images//bubbleB.png";
 
+let c_popup = "../images//next_assignment.png";
+
 let screen1 = [n_button, k_icon, a_popup]
 let screen2 = [g_button, k_icon, b_popup]
+let screen3 = [g_button, k_icon, c_popup]
 
 let screens = [screen1, screen2]
 let counter = -1;
@@ -82,26 +133,59 @@ let x
 let t
 let c
 let d
+let f
 let locate
 
 
 export function appendLocation() {
     d = document.getElementById('util');
+    f = document.getElementById('counter')
     locate = document.createElement('div');
     navig = document.createElement("img");
+    let boxfoundno = document.createElement("foundcounter")
 
     locate.style.color = "white";
     navig.src = "../images//navigate.png";
     navig.id = "navig";
     navig.style.zIndex = "15";
     navig.style.width = "10%";
+    navig.style.paddingBottom = "5%"
     navig.classList.add("toggle");
     navig.style.paddingBottom = "50%";
-    locate.style.paddingBottom = "10%";
+    locate.style.paddingTop = "5%";
+
+    boxfoundno.style.top = '0';
+    boxfoundno.style.left = '0';
+    boxfoundno.style.color = 'white'
 
     d.appendChild(navig);
     d.appendChild(locate);
-    
+    f.appendChild(boxfoundno)
+
+    function countboxes() {
+        let boxstatus = localStorage.getItem('box_status')
+        boxstatus = JSON.parse(boxstatus)
+        console.log(boxstatus)
+
+        let count = 0
+        count = countfound(boxstatus);
+        let text = `${count}/3`
+
+        boxfoundno.innerHTML = text;
+        
+
+        function countfound(list) {
+            list.forEach(box => {
+                if (box == 'found') {
+                    count ++
+                    return count
+                }
+                })
+                return count
+        }
+
+    }
+
     function toggleNav() {
         count++
         console.log('clickedy clicked')
@@ -111,33 +195,33 @@ export function appendLocation() {
             let dir = document.createElement('div');
             let box = document.getElementById('instructions');
             let map = document.getElementById('map');
-            let head = document.getElementById('head'); 
+            let head = document.getElementById('head');
             let corners = document.getElementById('corners');
 
-            
+
             box.classList.add("nav");
-            box.style.visibility='visible'; 
-            box.style.zIndex='10';
+            box.style.visibility = 'visible';
+            box.style.zIndex = '10';
             box.style.width = "80vw";
             box.style.height = "60vh";
             box.style.position = "relative";
             box.style.opacity = "80%";
-            box.style.backgroundColor = "grey"; 
-            box.style.fontSize = "40px"; 
+            box.style.backgroundColor = "grey";
+            box.style.fontSize = "40px";
             box.style.textAlign = "center";
             box.style.color = "black";
             box.style.fontFamily = "Arial";
             box.style.flexDirection = "column";
             box.style.animation = "fadeIn 1s";
-    
+
 
             c = document.createElement('div')
-            c.style.position = "absolute"; 
+            c.style.position = "absolute";
             c.style.width = "80%"
             c.style.height = "80%"
-            c.style.bottom = "0"; 
-            c.style.color = "red"; 
-            c.style.zIndex = "4"; 
+            c.style.bottom = "0";
+            c.style.color = "red";
+            c.style.zIndex = "4";
 
             box.appendChild(c);
 
@@ -154,19 +238,19 @@ export function appendLocation() {
 
 
             function closeNav() {
-                box.style.visibility = "hidden"; 
+                box.style.visibility = "hidden";
                 box.style.zIndex = -10;
-                map.style.zIndex = 1; 
-                head.style.zIndex = 2; 
-                corners.style.zIndex = 2; 
-                d.style.zIndex = 3; 
+                map.style.zIndex = 1;
+                head.style.zIndex = 2;
+                corners.style.zIndex = 2;
+                d.style.zIndex = 3;
                 count = 0;
             }
 
             b.appendChild(dir);
 
             x.addEventListener('click', closeNav)
-          
+
             return x;
         }
 
@@ -176,15 +260,16 @@ export function appendLocation() {
 
     countdown(locate);
     navig.addEventListener('click', toggleNav);
-    
+    countboxes()
+
     return navig, locate
 }
 
- 
+
 function changeScreen() {
     //let routetoggle = false; 
     counter++
-    approvelocation(counter)
+    approvelocation(counter, 0)
 
 
     if (counter < 2) {
@@ -206,6 +291,39 @@ function changeScreen() {
 
     return counter, routetoggle;
 
+}
+
+
+
+function welcomeback() {
+    //let routetoggle = false; 
+    let secondcounter = 0;
+    secondcounter++
+
+    if (secondcounter == 1) {
+        appendLocation();
+        routetoggle = true;
+        ui.remove();
+        approvelocation(secondcounter, 1)
+        return routetoggle;
+    }
+
+    return counter, routetoggle;
+
+}
+
+
+if (boxstatus[0] == 'notFound') {
+    console.log('Beginning game from scratch')
+    button.addEventListener('click', changeScreen);
+}
+
+if (boxstatus[0] == 'found') {
+    $('#midsection').empty();
+    replace(screen3);
+    console.log('Resuming game')
+    nextbutton = document.getElementById('next_button')
+    nextbutton.addEventListener('click', welcomeback);
 }
 
 

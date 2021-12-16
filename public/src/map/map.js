@@ -119,12 +119,17 @@ function successLocation(position) {
         console.log('watching location successfully')
         //replaceClass(boxstatus);
         unlockBox(newdistance, closestItem, boxstatus);
+        
+        map.flyTo({
+                center: userlocation,
+                zoom: 15
+        })
 
         return userlocation
 }
 
 function unlockBox(distance, closestItem, boxstatus) {
-        if (distance < 200) {
+        if (distance < 250) {
                 let m = document.getElementById('user');
                 let b = document.getElementById('cont')
                 m.classList.remove("marker");
@@ -162,8 +167,8 @@ function unlockBox(distance, closestItem, boxstatus) {
         if (distance < 25) {
                 console.log('box found, hooray!')
                 convertInactive(boxstatus, closestItem);
-                passboxfound(closestItem);
-                window.location.href = '/html/boxfound.html';
+                passboxfound(); // change this to nothing in case the box 
+                window.location.href = '/html/unlockbox.html';
         }
 }
 
@@ -173,23 +178,21 @@ function convertInactive(list, index) {
                 console.log(list)
                 localStorage.removeItem('box_status') // ---> in case it doesn't automatically override it
                 localStorage.setItem('box_status', JSON.stringify(list));
-                console.log('convert inactive function log')
+                console.log(`Box number ${index} has been converted inactive`)
 
                 let el = document.getElementById('boxdiv');
-
-                el.classList.remove('mark');
                 el.classList.add('boxfound');
         return list
 }
 // TO FIX THIS ONE
-
-function passboxfound(index) {
+// change this to index 0 if the boxes are being removed from the API call every time.
+function passboxfound() {
         var api_link = 'https://api.kryptomon.co/egg-hunt/openBox.php';
         var userID = localStorage.getItem('walletID')
         console.log(userID)
         var boxes = localStorage.getItem('boxIDs');
         boxes = JSON.parse(boxes);
-        var b = parseFloat(boxes[index].ID)
+        var b = parseFloat(boxes[0].ID)
         console.log(boxes)
         var json = {
                 walletID: userID,
@@ -203,7 +206,12 @@ function passboxfound(index) {
 
         function handledata(response) {
                 let g = JSON.parse(response)
-                console.log(g)
+
+                if (g == 'success') {
+                        console.log(`Successfully passed ${b} as unlocked belonging to user ${userID}`)
+                } else {
+                        console.log('There was an error passing the box to the API')
+                }
         }
 }
 
@@ -483,9 +491,9 @@ function addData(map, layer, data) {
 
 }
 
-export default function approvelocation(counter) {
+export default function approvelocation(counter, no) {
         console.log("this is from the approvelocation function")
-        if (counter == 0) {
+        if (counter == no) {
                 updateLocation();
                 addInfo(map, 'radius', filter, 'white');
                 const watchID = navigator.geolocation.watchPosition(successLocation, errorLocation,
@@ -494,6 +502,7 @@ export default function approvelocation(counter) {
                                 trackUserLocation: true,
                                 showUserHeading: true
                         })
+
                 console.log(user)
                 return watchID;
         }

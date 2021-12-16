@@ -1,26 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="../css/main.css">
     <link rel="favicon" type="image/jpg" href="/public/images/kLogo.png" />
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name='viewport' content='width=device-width, height=device-height, user-scalable=no'/>
     <title>Unlock box</title>
 </head>
 <body>
-    <div id='cont'>
+    <div id='boxfoundcont'>
+        <div id="confetti" width="100vw" height="100vh">
+            <img src="../images/confetti.png" width="200%" >
+        </div>
+        <div id='foundhead'>
+            <img src="../images/top_header.png" id="head">
+        </div>
         <div id="auth">
-            <p>Input your token to login</p>
-            <div id="field">
-                <input id="login" class="input" type="text">
-            </div>
-            <img id="verif" class="logbutton" src="/images/verify_button.png">
+            <img src="../images/silver_idle_open.gif" id="boxopen">
+            <p>You have found a mysterybox!</p>
+            <img id="unlockbox" class="logbutton" src="../images/openbox_button.png">
+        </div>
+        <div class="corners" id="corners" width=100% height=100%>
+            <img src="../images/sp_left.png" id="leftP" width="35%" height="35%">
+            <img src="../images/sp_right.png" id="rightP" width="35%" height="35%">
         </div>
         <div id='back' class='obj'>
         </div>
-
     </div>
     
 </body>
+<script>
+    let button = document.getElementById('unlockbox')
+    function redirect() {
+        window.location.href= '/html/boxfound.html';
+    }
+
+    button.addEventListener('click', redirect)
+</script>
+<script type="module" src='/src/utility/ongameEnd.js'></script>
 </html>

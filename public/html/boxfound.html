@@ -1,22 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/main.css">
-    <title>You found a box!</title>
+    <title>Open box</title>
 </head>
+
 <body>
-    <div id='cont'>
-        <div id="container">
-            <p>Game result:</p>
+    <div id='boxfoundcont'>
+        <div id="confetti" width="100vw" height="100vh">
+            <img src="../images/win_background.png" width="200%" height="200%">
+        </div>
+        <div id='foundhead'>
+            <img src="../images/top_header.png" id="head">
+        </div>
+        <div id="auth">
+            <img id="egg">
+            <div id="text">
+                <p id="textarea"></p>
+            </div>
+        </div>
+        <img id="return" class="logbutton" src="../images/return_button.png">
+        <div class="corners" id="corners" width=100% height=100%>
+            <img src="../images/sp_left.png" id="leftP" width="35%" height="35%">
+            <img src="../images/sp_right.png" id="rightP" width="35%" height="35%">
+        </div>
+        <div id='back' class='obj'>
         </div>
     </div>
 
 
-    
+
 </body>
-</html>
 <script type="module" src='/src/utility/loadingscreen.js'></script>
-<script type="module" src = '/src/map/map.js'></script>
+<script type="module" src='/src/map/map.js'></script>
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<script>
+    let confetti = document.getElementById('confetti');
+    let textarea = document.getElementById('textarea');
+    let text
+
+    let t = document.getElementById('text')
+    let i = document.getElementById('egg')
+    let c = document.getElementById('confetti')
+    t.style.paddingRight = '15%'
+    t.style.paddingLeft = '15%'
+
+    textarea.innerHTML = 'hello world';
+    let user = localStorage.getItem('walletID')
+
+    var boxes = localStorage.getItem('boxIDs');
+    boxes = JSON.parse(boxes);
+    var b = boxes[0].category
+
+    if (b == 'egg') {
+        text = 'Congratulations! You have won an egg!'
+        i.src = "../images/Egg_Image.png"
+    }
+
+    if (b == 'lootbox') {
+        i.src = "../images/loot_box.png"
+        text = "Congratulations! You have won a lootbox!"
+    }
+
+    if (b == 'empty') {
+        text = 'Sorry, this mysterybox is empty!';
+        c.style.visibility = 'hidden';
+    }
+    console.log(b)
+    textarea.innerHTML = text;
+
+</script>
+
+<script>
+    let button = document.getElementById('return')
+    function redirect() {
+        window.location.href = '/html/game.html';
+    }
+
+    button.addEventListener('click', redirect)
+</script>
+<script type="module" src='/src/utility/ongameEnd.js'></script>
+
+</html>

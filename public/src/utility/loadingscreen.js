@@ -40,4 +40,4 @@ function splashScreen(){
 }
 
 div = createscreen(); 
-setTimeout(destroyscreen, 3000);
+setTimeout(destroyscreen, 500);

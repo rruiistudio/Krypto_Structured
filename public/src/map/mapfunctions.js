@@ -63,7 +63,7 @@ export async function storeInitialLocation() {
 //console.log('items retrieved')
 
 export default userlocation = [parseFloat(coords[0]), parseFloat(coords[1])];
-console.log(userlocation)
+//console.log(userlocation)
 
 // box handlers ---------------------------------------------------------------------------------------->
 

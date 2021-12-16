@@ -26,6 +26,12 @@ export default function countdown(el) {
        if (distance < 0) {
          clearInterval(x);
          el.innerHTML = "EXPIRED";
+         localStorage.removeItem('walletID');
+         localStorage.removeItem('boxstatus')
+         localStorage.removeItem('boxes')
+         localStorage.removeItem('box1')
+         localStorage.removeItem('box2')
+         localStorage.removeItem('box3')
        }
 
     }, 1000)     

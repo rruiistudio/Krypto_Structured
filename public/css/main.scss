@@ -30,6 +30,91 @@ body {
     display: none;
   }
 
+
+#boxfoundcont {
+  position: absolute; 
+  display: flex; 
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw; 
+  margin: 0;
+  overflow: hidden;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-family: 'mister_london';
+  background-color: #160b21;
+  color: white;
+  font-size: 30px; 
+  z-index:0;
+
+  #confetti{
+    position: absolute;
+    display: flex;
+    align-items: center;
+    z-index: -1;
+    top:0;
+    height: 100vh;
+  }
+
+  #unlockbox{
+    z-index: 1;
+  }
+
+  #foundhead{
+    top: 0;
+    position: fixed;
+    display: flex;
+    align-items: center;
+    z-index: 1;
+
+    #head{
+      width: 100vw;
+    }
+  }
+
+  #unlockbox{
+    width: 50%!important;
+    z-index: 1;
+  }
+
+  #boxopen{
+    width: 30%;
+    animation: boxpulse 1s infinite;
+    z-index: 1;
+    
+  }
+
+  #corners { 
+    position: fixed;
+    display: inline-flex; 
+    flex-direction: row;
+    justify-content: space-between;
+    bottom: 0; 
+    width: 100vw;
+    overflow: hidden; 
+    z-index: 1;
+
+    .corners{
+        position: fixed;
+        margin: 0; 
+        bottom: 0; 
+    }
+
+    #leftP{ 
+        left: 0 !important;
+    }
+
+    #rightP{
+        right: 0 !important;
+    }
+}
+}
+
+
+
+
+
 #cont {
     position: fixed; 
     display: flex;
@@ -189,6 +274,17 @@ body {
   }
 }
 
+.button{
+  width: 150px;
+  padding-top: 5%;
+  z-index: 11;
+}
+
+.button:active{
+  opacity: 50%; 
+  z-index: 10;
+}
+
 
 .logbutton{
   width: 50%;
@@ -245,7 +341,6 @@ body {
   }
 
 }
-
 
 #h3 {
     color:white; 
@@ -346,7 +441,18 @@ body {
     bottom: 0; 
     justify-content: center;
     align-items: center;
-    margin-bottom: 12%; 
+    margin-bottom: 10%; 
+    //align-items: center;
+  }
+
+  #counter {
+    position: fixed; 
+    top: 0; 
+    left: 0;
+    justify-content: left;
+    align-items: left;
+    padding-top: 20%;
+    padding-left: 7%; 
     //align-items: center;
   }
 
@@ -374,6 +480,15 @@ body {
     100% {
       width:80px;
       height: 80px; 
+    }
+  }
+
+  @keyframes boxpulse {
+    0% {
+      opacity: 85%;
+    }
+    100% {
+      opacity:100%; 
     }
   }
 

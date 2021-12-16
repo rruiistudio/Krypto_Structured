@@ -6,6 +6,8 @@ let text = document.getElementById('verif');
 
 
 //GET LOCATION AND BOXES BEFORE THE REST OF THE APP IS LOADED
+// except for the initial location function, the spawn box function can be potentially moved back into map.js
+
 var options = {
     enableHighAccuracy: true,
     trackUserLocation: true,
@@ -40,12 +42,11 @@ location();
 mapboxgl.accessToken = 'pk.eyJ1IjoicnJ1aWlkZXYiLCJhIjoiY2t2N3FtMjFhMDFmNzJvbzdidnpkaGxweiJ9.R0WQ2KnHg8EQ9wyWPYLQFg';
 
 export async function spawnBox(userlocation) {
-    console.log("the spawn box function is running")
     var point = [userlocation[0], userlocation[1]]
     const limit = 3;
-    const radius = 1500; // in meters
+    const radius = 3500; // in meters
     const tileset = "mapbox.mapbox-streets-v8";
-    const layers = ['building'];
+    const layers = ['place_label'];
     const query = await fetch(
             `https://api.mapbox.com/v4/${tileset}/tilequery/${point[0]},${point[1]}.json?radius=${radius}&limit=${limit}&layers=${layers}&access_token=${mapboxgl.accessToken}`,
             { method: 'GET' }
