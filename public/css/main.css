@@ -304,18 +304,22 @@ body {
   padding-top: 5%;
 }
 
-#button_container {
+#cont #midsection #button_container {
   z-index: 20;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  text-align: center;
 }
 
-#button_container .button {
+#cont #midsection #button_container .button {
   width: 150px;
   padding-top: 5%;
   padding-bottom: 50%;
   z-index: 11;
 }
 
-#button_container .button .button:active {
+#cont #midsection #button_container .button .button:active {
   opacity: 50%;
   z-index: 10;
 }

@@ -17,9 +17,6 @@ let ui = document.getElementById('midsection')
 let boxstatus = localStorage.getItem('box_status')
 boxstatus = JSON.parse(boxstatus);
 
-
-
-
 function appendElement(elements) {
 
     // create new elements

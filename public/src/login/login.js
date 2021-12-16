@@ -62,10 +62,10 @@ export async function spawnBox(userlocation) {
 
     if (localStorage.getItem('box1') == null) {
             localStorage.setItem('box1', json.features[0].geometry.coordinates)
-            console.log("spawned new boxes")
+            console.log("Spawned new boxes")
 
     } else {
-        console.log("read the boxes stored before")
+        console.log("Read the boxes stored before")
     }
 
     if (localStorage.getItem('box2') == null) {
