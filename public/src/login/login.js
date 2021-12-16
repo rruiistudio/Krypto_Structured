@@ -5,6 +5,7 @@ import loadconfirm, { redirect } from '../utility/utilities.js';
 let text = document.getElementById('verif');
 
 
+//GET LOCATION AND BOXES BEFORE THE REST OF THE APP IS LOADED
 var options = {
     enableHighAccuracy: true,
     trackUserLocation: true,
@@ -15,9 +16,13 @@ var options = {
 export function success(pos) {
     let long = pos.coords.longitude;
     let lat = pos.coords.latitude;
+
+    let userlocation = [long, lat]
     localStorage.setItem('userLong', long)
     localStorage.setItem('userLat', lat)
     console.log('items stored')
+
+    spawnBox(userlocation);
 
 }
 
@@ -32,6 +37,42 @@ export function location() {
 }
 
 location();
+
+export async function spawnBox(userlocation) {
+    console.log("the spawn box function is running")
+    var point = [userlocation[0], userlocation[1]]
+    const limit = 3;
+    const radius = 1500; // in meters
+    const tileset = "mapbox.mapbox-streets-v8";
+    const layers = ['place_label'];
+    const query = await fetch(
+            `https://api.mapbox.com/v4/${tileset}/tilequery/${point[0]},${point[1]}.json?radius=${radius}&limit=${limit}&layers=${layers}&access_token=${mapboxgl.accessToken}`,
+            { method: 'GET' }
+    );
+    const json = await query.json();
+
+  
+    console.log(json)
+
+    if (localStorage.getItem('box1') == null) {
+            let b = localStorage.setItem('box1', json.features[0].geometry.coordinates)
+            console.log(b);
+
+    }
+
+    if (localStorage.getItem('box2') == null) {
+            localStorage.setItem('box2', json.features[1].geometry.coordinates)
+    }
+
+    if (localStorage.getItem('box3') == null) {
+            localStorage.setItem('box3', json.features[2].geometry.coordinates)
+    }
+
+    return json;
+
+}
+
+// LOGIN VALUES
 
 function getValue() {
     value = document.getElementById('login').value;

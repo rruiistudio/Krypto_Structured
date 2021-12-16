@@ -267,6 +267,7 @@ function updateMarker(marker, center) {
 
 // you need to store the updated userlocation in a variable too actually
 
+/*
 export async function spawnBox(userlocation) {
         console.log("the spawn box function is running")
         var point = [userlocation[0], userlocation[1]]
@@ -300,11 +301,12 @@ export async function spawnBox(userlocation) {
         return json;
 
 }
+*/
 
 
 function storeBox(userlocation) {
         console.log("the store box function is ok")
-        spawnBox(userlocation);
+        //spawnBox(userlocation);
         let box1 = localStorage.getItem('box1');
         box1 = box1.split(',')
         box1 = [parseFloat(box1[0]), parseFloat(box1[1])]
