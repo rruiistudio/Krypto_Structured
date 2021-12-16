@@ -22,7 +22,7 @@ let boxlist;
 let playerID = localStorage.getItem('walletID');
 console.log(playerID)
 
-//localStorage.removeItem('box_status')
+localStorage.removeItem('box_status')
 // initialize the boxstatus to be null 
 function initialStatus() { 
         if (localStorage.getItem('box_status') == null) {
