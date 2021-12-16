@@ -22,7 +22,7 @@ let boxlist;
 let playerID = localStorage.getItem('walletID');
 console.log(playerID)
 
-
+//localStorage.removeItem('box_status')
 // initialize the boxstatus to be null 
 function initialStatus() { 
         if (localStorage.getItem('box_status') == null) {
@@ -124,7 +124,7 @@ function successLocation(position) {
 }
 
 function unlockBox(distance, closestItem, boxstatus) {
-        if (distance < 200) {
+        if (distance < 800) {
                 let m = document.getElementById('user');
                 let b = document.getElementById('cont')
                 m.classList.remove("marker");
@@ -152,14 +152,14 @@ function unlockBox(distance, closestItem, boxstatus) {
                 // -----> only append once, at the middle of the screen & destroy in 2 seconds
 
         }
-        if (distance < 150) {
+        if (distance < 750) {
                 let m = document.getElementById('user');
                 m.classList.remove("closemarker");
                 m.classList.add("closermarker");
                 console.log('super close to the target!')
                 // can add screen prompt here to show proximity
         }
-        if (distance < 25) {
+        if (distance < 500) {
                 console.log('box found, hooray!')
                 convertInactive(boxstatus, closestItem);
                 passboxfound(closestItem);
@@ -182,14 +182,12 @@ function convertInactive(list, index) {
         return list
 }
 // TO FIX THIS ONE
-
-
 function passboxfound(index) {
         var api_link = 'https://api.kryptomon.co/egg-hunt/openBox.php';
         var userID = localStorage.getItem('walletID')
         console.log(userID)
         var boxes = localStorage.getItem('boxIDs');
-        var boxes = JSON.parse(boxes);
+        boxes = JSON.parse(boxes);
         var b = parseFloat(boxes[index].ID)
         console.log(boxes)
         var json = {

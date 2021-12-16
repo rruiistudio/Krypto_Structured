@@ -45,7 +45,7 @@ export async function spawnBox(userlocation) {
     const limit = 3;
     const radius = 1500; // in meters
     const tileset = "mapbox.mapbox-streets-v8";
-    const layers = ['place_label'];
+    const layers = ['building'];
     const query = await fetch(
             `https://api.mapbox.com/v4/${tileset}/tilequery/${point[0]},${point[1]}.json?radius=${radius}&limit=${limit}&layers=${layers}&access_token=${mapboxgl.accessToken}`,
             { method: 'GET' }
@@ -55,10 +55,16 @@ export async function spawnBox(userlocation) {
   
     console.log(json)
 
-    if (localStorage.getItem('box1') == null) {
-            let b = localStorage.setItem('box1', json.features[0].geometry.coordinates)
-            console.log(b);
+    localStorage.removeItem('box1')
+    localStorage.removeItem('box2')
+    localStorage.removeItem('box3')
 
+    if (localStorage.getItem('box1') == null) {
+            localStorage.setItem('box1', json.features[0].geometry.coordinates)
+            console.log("spawned new boxes")
+
+    } else {
+        console.log("read the boxes stored before")
     }
 
     if (localStorage.getItem('box2') == null) {
