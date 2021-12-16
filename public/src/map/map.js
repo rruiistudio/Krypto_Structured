@@ -15,7 +15,6 @@ let searchradius = 2;
 
 let distA = [];
 let elIndex;
-
 let boxlist;
 
 
@@ -35,8 +34,6 @@ initialStatus();
 
 let boxstatus = JSON.parse(localStorage.getItem('box_status'));
 console.log(boxstatus)
-
-
 
 //--------------------------------------------------------------------------------------------------------------------//
 
@@ -61,9 +58,7 @@ let user = marker(userlocation);
 
 //INITIALIZE BOXES
 
-
-
-boxlist = storeBox(userlocation)
+boxlist = storeBox()
 console.log(boxlist)
 
 distA.push(calculateDistance(boxlist[0], userlocation),
@@ -304,7 +299,7 @@ export async function spawnBox(userlocation) {
 */
 
 
-function storeBox(userlocation) {
+function storeBox() {
         console.log("the store box function is ok")
         //spawnBox(userlocation);
         let box1 = localStorage.getItem('box1');
