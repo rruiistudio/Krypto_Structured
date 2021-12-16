@@ -259,21 +259,20 @@ function updateMarker(marker, center) {
 
 // you need to store the updated userlocation in a variable too actually
 
-export async function spawnBox(userlocation) {
+export function spawnBox(userlocation) {
+        console.log("the spawn box function is running")
         var point = [userlocation[0], userlocation[1]]
         const limit = 3;
         const radius = 1500; // in meters
         const tileset = "mapbox.mapbox-streets-v8";
         const layers = ['place_label'];
-        const query = await fetch(
+        const query = fetch(
                 `https://api.mapbox.com/v4/${tileset}/tilequery/${point[0]},${point[1]}.json?radius=${radius}&limit=${limit}&layers=${layers}&access_token=${mapboxgl.accessToken}`,
                 { method: 'GET' }
         );
-        const json = await query.json();
+        const json = query.json();
     
-        // add to map: 
-
-
+      
         console.log(json)
 
         if (localStorage.getItem('box1') == null) {
@@ -294,10 +293,11 @@ export async function spawnBox(userlocation) {
 
 
 function storeBox(userlocation) {
+        console.log("the store box function is ok")
         spawnBox(userlocation);
         let box1 = localStorage.getItem('box1');
-        //box1 = box1.split(',')
-        //box1 = [parseFloat(box1[0]), parseFloat(box1[1])]
+        box1 = box1.split(',')
+        box1 = [parseFloat(box1[0]), parseFloat(box1[1])]
 
         let box2 = localStorage.getItem('box2');
         box2 = box2.split(',')
