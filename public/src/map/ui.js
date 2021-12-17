@@ -68,11 +68,11 @@ function replace(elements) {
     // get old elements
 
     nextbutton.id = "next_button";
-    nextbutton.style.classList = "button";
+    nextbutton.classList.add("button");
     nextbutton.src = elements[0];
     nextbutton.style.width = "45vw"
     nextbutton.style.paddingTop = "20%"
-    nextbutton.classList = "button"
+    nextbutton.classList.add("button");
 
     art.id = "art";
     art.src = elements[1];
@@ -159,6 +159,35 @@ export function appendLocation() {
     d.appendChild(locate);
     f.appendChild(boxfoundno)
 
+
+    let div = document.createElement('div')
+    let zoomin = document.createElement('img')
+    let zoomout = document.createElement('img')
+
+    zoomin.id = 'zoomin'
+    zoomout.id = 'zoomout'
+    zoomin.src = '../images/zoom_in.png'
+    zoomout.src = '../images/zoom_out.png'
+    zoomin.style.width = '30px'
+    zoomin.classList.add('zoomButton')
+    zoomout.classList.add('zoomButton')
+    zoomin.style.paddingTop = '3vh'
+    zoomout.style.paddingTop = '3vh'
+    zoomout.style.width = '30px'
+    div.style.top = '0';
+    div.style.bottom = '0';
+    div.style.left ='0';
+    div.style.marginLeft = '-2vw'
+    div.style.alignContent = 'center'
+    div.style.display = 'flex'
+    div.style.paddingTop = '30vh'
+    div.style.flexDirection = 'column'
+
+    div.appendChild(zoomout)
+    div.appendChild(zoomin)
+
+    f.appendChild(div)
+
     function countboxes() {
         let boxstatus = localStorage.getItem('box_status')
         boxstatus = JSON.parse(boxstatus)
@@ -169,16 +198,16 @@ export function appendLocation() {
         let text = `${count}/3`
 
         boxfoundno.innerHTML = text;
-        
+
 
         function countfound(list) {
             list.forEach(box => {
                 if (box == 'found') {
-                    count ++
+                    count++
                     return count
                 }
-                })
-                return count
+            })
+            return count
         }
 
     }

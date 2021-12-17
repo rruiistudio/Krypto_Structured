@@ -3,6 +3,7 @@
 import loadconfirm, { redirect } from '../utility/utilities.js';
 //import location from '../map/mapfunctions.js';
 let text = document.getElementById('verif');
+import { calculateDistance } from '../map/mapfunctions.js';
 
 
 //GET LOCATION AND BOXES BEFORE THE REST OF THE APP IS LOADED
@@ -43,8 +44,8 @@ mapboxgl.accessToken = 'pk.eyJ1IjoicnJ1aWlkZXYiLCJhIjoiY2t2N3FtMjFhMDFmNzJvbzdid
 
 export async function spawnBox(userlocation) {
     var point = [userlocation[0], userlocation[1]]
-    const limit = 3;
-    const radius = 3500; // in meters
+    const limit = 48;
+    const radius = 5000; // in meters
     const tileset = "mapbox.mapbox-streets-v8";
     const layers = ['place_label'];
     const query = await fetch(
@@ -53,17 +54,65 @@ export async function spawnBox(userlocation) {
     );
     const json = await query.json();
 
+    console.log(json)
+
+    let jsoncoords = []
+
+    jsoncoords = getCoords(json, jsoncoords)
+    console.log(jsoncoords)
+
+    function getCoords(list, array) {
+        list.features.forEach(el => {
+            let c = el.geometry.coordinates
+            let f = [c[0], c[1]]
+            array.push(f)
+            return array
+        })
+        return array
+    }
+    
+
+    let selected = []
+    console.log(userlocation)
+    let distance = []
+    jsoncoords.forEach(el => {
+        let v = calculateDistance(userlocation, el)
+        distance.push(v)
+        boxproximity(distance, selected, jsoncoords)
+        return distance
+    })
+
+    console.log(distance)
+   
+
+    selected = selected.slice(Math.max(selected.length - 3, 0))
+    console.log(selected[0])
+
+
+
+    function boxproximity(list, array, coords) {
+        list.forEach(el => {
+            let i = list.indexOf(el);
+            let newitem = coords[i]
+            if (el > 700 & !array.includes(newitem)) {
+                array.push(newitem);
+            }
+
+            return array
+        })
+    }
+
   
     console.log(json)
 
-    //localStorage.removeItem('box_found')
+   // localStorage.removeItem('box_found')
 
-    //localStorage.removeItem('box1')
-    //localStorage.removeItem('box2')
-    //localStorage.removeItem('box3')
+//    localStorage.removeItem('box1')
+  //  localStorage.removeItem('box2')
+   // localStorage.removeItem('box3')
 
     if (localStorage.getItem('box1') == null) {
-            localStorage.setItem('box1', json.features[0].geometry.coordinates)
+            localStorage.setItem('box1', selected[0])
             console.log("Spawned new boxes")
 
     } else {
@@ -71,11 +120,11 @@ export async function spawnBox(userlocation) {
     }
 
     if (localStorage.getItem('box2') == null) {
-            localStorage.setItem('box2', json.features[1].geometry.coordinates)
+            localStorage.setItem('box2', selected[1])
     }
 
     if (localStorage.getItem('box3') == null) {
-            localStorage.setItem('box3', json.features[2].geometry.coordinates)
+            localStorage.setItem('box3', selected[2])
     }
 
     return json;
@@ -160,12 +209,6 @@ export default function loginSuccess() {
             if (localStorage.getItem('boxIDs') === null) {
                 localStorage.setItem('boxIDs', JSON.stringify(boxes));
             }
-
-            /*
-
-            if (localStorage.getItem('boxesMsg') === null) {
-                localStorage.setItem('boxesMsg', JSON.stringify(boxesMsg));
-            } */
 
             container.style.animation = "fadeOut 1s";
 

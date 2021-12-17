@@ -276,8 +276,6 @@ body {
 }
 
 
-
-
 .button{
   width: 150px;
   padding-top: 5%;
@@ -470,6 +468,14 @@ body {
 
 .toggle:active{
   opacity: 100%; 
+}
+
+.zoomButton {
+  opacity: 50%
+}
+
+.zoomButton:active {
+  opacity: 100%
 }
 
 .nav{

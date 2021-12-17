@@ -556,6 +556,14 @@ body {
   opacity: 100%;
 }
 
+.zoomButton {
+  opacity: 50%;
+}
+
+.zoomButton:active {
+  opacity: 100%;
+}
+
 .nav {
   border-radius: 15px;
 }

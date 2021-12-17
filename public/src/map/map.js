@@ -24,7 +24,7 @@ console.log(playerID)
 
 //localStorage.removeItem('box_status')
 // initialize the boxstatus to be null 
-function initialStatus() { 
+function initialStatus() {
         if (localStorage.getItem('box_status') == null) {
                 let status = ['notFound', 'notFound', 'notFound']
                 localStorage.setItem('box_status', JSON.stringify(status))
@@ -104,13 +104,20 @@ function initialFly() {
 //-------------------------------------------------------------------------------------------------------------------//
 
 function successLocation(position) {
+        console.log(position)
         long = position.coords.longitude;
         lat = position.coords.latitude;
+        let heading = position.coords.heading;
+
+        console.log(heading)
 
         let watchlocation = [long, lat]
         getRoute(watchlocation, boxlist[closestItem])
         let newdistance = calculateDistance(watchlocation, boxlist[closestItem])
         console.log(watchlocation)
+
+        let center = [((watchlocation[0] + boxlist[closestItem][0]) / 2), ((watchlocation[1] + boxlist[closestItem][1]) / 2)]
+        console.log(center)
 
         updateMarker(user, watchlocation);
 
@@ -119,11 +126,39 @@ function successLocation(position) {
         console.log('watching location successfully')
         //replaceClass(boxstatus);
         unlockBox(newdistance, closestItem, boxstatus);
-        
-        map.flyTo({
-                center: userlocation,
-                zoom: 15
-        })
+
+        let zoomin = document.getElementById('zoomin')
+        let zoomout = document.getElementById('zoomout')
+
+        if (!heading == null) {
+                map.rotateTo(heading)
+
+        } else {
+                let bearing = turf.bearing(watchlocation, boxlist[closestItem])
+                map.rotateTo(bearing)
+        }
+
+        zoomin.addEventListener('click', onzoomin)
+        zoomout.addEventListener('click', onzoomout)
+
+        function onzoomin() {
+                console.log('ive definitely zoomedin on that one')
+                map.flyTo({
+                        center: userlocation,
+                        zoom: 25
+                })
+
+        }
+
+        function onzoomout() {
+                console.log('deeeefintely zooming out now')
+                map.flyTo({
+                        center: center,
+                        zoom: 15
+                })
+        }
+
+
 
         return userlocation
 }
@@ -134,38 +169,17 @@ function unlockBox(distance, closestItem, boxstatus) {
                 let b = document.getElementById('cont')
                 m.classList.remove("marker");
                 m.classList.add("closemarker");
-                console.log('closer to the target!')
-
-
-                // can add screen prompt here to show proximity
-                /*
-
-                let p = document.createElement('div')
-                p.style.width = "100vw"; 
-                p.style.height = "100vh"
-                p.style.zIndex = 5; 
-                p.style.alignItems = "center";
-                p.style.flexDirection = "column";
-                p.style.justifyContent = "center";
-                p.style.fontSize = "40px";
-                p.style.color = "white";
-
-                p.innerHTML += '<p>You are getting closer!</p>';
-                b.appendChild(p);
-                */
-
-                // -----> only append once, at the middle of the screen & destroy in 2 seconds
-
+                console.log('Closer to the target!')
         }
         if (distance < 150) {
                 let m = document.getElementById('user');
                 m.classList.remove("closemarker");
                 m.classList.add("closermarker");
-                console.log('super close to the target!')
+                console.log('Super close to the target!')
                 // can add screen prompt here to show proximity
         }
         if (distance < 25) {
-                console.log('box found, hooray!')
+                console.log('Box found, hooray!')
                 convertInactive(boxstatus, closestItem);
                 passboxfound(); // change this to nothing in case the box 
                 window.location.href = '/html/unlockbox.html';
@@ -173,47 +187,65 @@ function unlockBox(distance, closestItem, boxstatus) {
 }
 
 function convertInactive(list, index) {
-                list[index] = 'found';
-                console.log(index)
-                console.log(list)
-                localStorage.removeItem('box_status') // ---> in case it doesn't automatically override it
-                localStorage.setItem('box_status', JSON.stringify(list));
-                console.log(`Box number ${index} has been converted inactive`)
+        list[index] = 'found';
+        console.log(index)
+        console.log(list)
+        localStorage.removeItem('box_status') // ---> in case it doesn't automatically override it
+        localStorage.setItem('box_status', JSON.stringify(list));
+        console.log(`Box number ${index} has been converted inactive`)
 
-                let el = document.getElementById('boxdiv');
-                el.classList.add('boxfound');
+        let el = document.getElementById('boxdiv');
+        el.classList.add('boxfound');
         return list
 }
 // TO FIX THIS ONE
 // change this to index 0 if the boxes are being removed from the API call every time.
 function passboxfound() {
+        let URL = "https://api.kryptomon.co/egg-hunt/getUser.php";
         var api_link = 'https://api.kryptomon.co/egg-hunt/openBox.php';
         var userID = localStorage.getItem('walletID')
         console.log(userID)
-        var boxes = localStorage.getItem('boxIDs');
-        boxes = JSON.parse(boxes);
-        var b = parseFloat(boxes[0].ID)
-        console.log(boxes)
-        var json = {
-                walletID: userID,
-                boxID: b
+
+        // make a call to the current API every time to only get the boxes available
+        buttonclickhandler();
+
+        function buttonclickhandler() {
+                var getInfo = JSON.stringify(data);
+                console.log(getInfo)
+
+                $.post(URL, getInfo, handleboxes)
         }
 
-        console.log(json)
+        function handleboxes(response) {
+                g = JSON.parse(response)
+                console.log(g)
+                let boxes = g.boxes;
+                var b = parseFloat(boxes[0].ID);
+                console.log(b)
 
-        var SendInfo = JSON.stringify(json);
-        $.post(api_link, SendInfo, handledata)
+                var json = {
+                        walletID: userID,
+                        boxID: b
+                }
 
-        function handledata(response) {
-                let g = JSON.parse(response)
+                console.log(json)
 
+                var SendInfo = JSON.stringify(json);
+                $.post(api_link, SendInfo, handledata)
+        }
+
+        function handledata(res) {
+                let g = JSON.parse(res)
+        
                 if (g == 'success') {
                         console.log(`Successfully passed ${b} as unlocked belonging to user ${userID}`)
                 } else {
                         console.log('There was an error passing the box to the API')
                 }
         }
+
 }
+
 
 
 function errorLocation() {
@@ -331,27 +363,27 @@ function storeBox() {
 
 // only load markers for one box at a time
 function mysterybox(element) {
-                const el = document.createElement('div');
-                el.classList.add('mark');
-                el.id = "boxdiv";
+        const el = document.createElement('div');
+        el.classList.add('mark');
+        el.id = "boxdiv";
 
-                new mapboxgl.Marker(el)
-                        .setLngLat(element)
-                        .setPopup(
-                                new mapboxgl.Popup({ offset: 25 }) // add popups
-                                        .setHTML(
-                                                `<img id="mysterybox" src = "../images/Box_Closed.png" width="50px">
+        new mapboxgl.Marker(el)
+                .setLngLat(element)
+                .setPopup(
+                        new mapboxgl.Popup({ offset: 25 }) // add popups
+                                .setHTML(
+                                        `<img id="mysterybox" src = "../images/Box_Closed.png" width="50px">
                                 <h3 style = "font-size: 12px; margin-top: -10%;" >Mysterybox</h3><p style = "font-size: 11px; margin-top: -11%">${calculateDistance(element, userlocation)} m away</p>
                                 <style >`
-                                        )
-                        )
-                        .addTo(map);
+                                )
+                )
+                .addTo(map);
 
         return elIndex, distA;
 
 }
 
-function calculateDistance(data, location) {
+export function calculateDistance(data, location) {
 
         var from = turf.point(location);
         var to = turf.point(data);
@@ -362,18 +394,18 @@ function calculateDistance(data, location) {
 
 }
 
-function whichBox(list, status, distances){
+function whichBox(list, status, distances) {
         let availableb = []
         list.forEach(box => {
-                let i= list.indexOf(box)
+                let i = list.indexOf(box)
                 if (status[i] == 'notFound') {
-                        let bdist= calculateDistance(box, userlocation);
+                        let bdist = calculateDistance(box, userlocation);
                         availableb.push(bdist);
                         console.log(availableb)
 
-                return availableb
+                        return availableb
                 }
-        }) 
+        })
 
         const min = Math.min(...availableb);
         let index = distances.indexOf(min);

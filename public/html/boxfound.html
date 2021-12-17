@@ -32,8 +32,6 @@
         </div>
     </div>
 
-
-
 </body>
 <script type="module" src='/src/utility/loadingscreen.js'></script>
 <script type="module" src='/src/map/map.js'></script>
@@ -52,37 +50,78 @@
     textarea.innerHTML = 'hello world';
     let user = localStorage.getItem('walletID')
 
-    var boxes = localStorage.getItem('boxIDs');
-    boxes = JSON.parse(boxes);
-    var b = boxes[0].category
+    let data = { walletId: user };
+    let URL = "https://api.kryptomon.co/egg-hunt/getUser.php";
 
-    if (b == 'egg') {
-        text = 'Congratulations! You have won an egg!'
-        i.src = "../images/Egg_Image.png"
+    // get box data straight from the server. 
+
+    buttonclickhandler();
+
+    function buttonclickhandler() {
+
+        var SendInfo = JSON.stringify(data);
+        console.log(SendInfo)
+
+        $.post(URL, SendInfo, handledata)
     }
 
-    if (b == 'lootbox') {
-        i.src = "../images/loot_box.png"
-        text = "Congratulations! You have won a lootbox!"
-    }
+    function handledata(response) {
+        g = JSON.parse(response)
+        console.log(g)
+        status = g.status;
+        console.log(status);
 
-    if (b == 'empty') {
-        text = 'Sorry, this mysterybox is empty!';
-        c.style.visibility = 'hidden';
+        id = g.walletID;
+        let boxes = g.boxes;
+        var b = boxes[0].category;
+        console.log(b)
+
+
+        if (b == 'egg') {
+            text = 'Congratulations! You have won an egg!'
+            i.src = "../images/Egg_Image.png"
+        }
+
+        if (b == 'lootbox') {
+            i.src = "../images/loot_box.png"
+            i.style.width = '60%'
+            text = "Congratulations! You have won a lootbox!"
+        }
+
+        if (b == 'empty') {
+            text = 'Sorry, this mysterybox is empty!';
+            c.style.visibility = 'hidden';
+        }
+
+        textarea.innerHTML = text;
     }
-    console.log(b)
-    textarea.innerHTML = text;
 
 </script>
 
 <script>
     let button = document.getElementById('return')
+    let boxstatus = localStorage.getItem('box_status')
+    let s
+    boxstatus = JSON.parse(boxstatus)
+    console.log(boxstatus)
+
+    function next(){
+        if (boxstatus.every(isfound)) {
+            console.log('all elements are found!')
+            window.location.href = '/html/ongameend.html';
+        } else {
+            redirect();
+        }
+    }
+
+    function isfound(s) {
+        return s == 'found';
+    }
+
     function redirect() {
         window.location.href = '/html/game.html';
     }
 
-    button.addEventListener('click', redirect)
+    button.addEventListener('click', next)
 </script>
-<script type="module" src='/src/utility/ongameEnd.js'></script>
-
 </html>
