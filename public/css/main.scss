@@ -154,25 +154,25 @@ body {
         color: white; 
 
         #field{
-            margin-top: 15%;
+            margin-top: 25%;
             position: inherit;
             display: inherit;
             width: 80vw;
-            height: 8vh;
-            background: white;
+            height: 4vh;
             opacity: 0.6;
-            border-radius: 50px !important; 
+            border-radius: 5px !important; 
             border-collapse: separate;
             overflow: hidden;
             
-
             .input{
-                font-size: 60px;
-                font-family: 'mister_london';
+                font-size: 40px;
+                font-family: 'Courier New', Courier, monospace;
                 width: inherit;
                 height: inherit;
                 text-align: center;
                 border:0px;
+                background: black;
+                color: white;
             }
         }
 
@@ -219,7 +219,7 @@ body {
         z-index: -1;
         height: 100vh;
         width: 100vw; 
-        background-color: #160b21;
+        background-color: #181818;
     }
 
     #midsection{
@@ -274,6 +274,8 @@ body {
 
   }
 }
+
+
 
 
 .button{
@@ -468,14 +470,6 @@ body {
 
 .toggle:active{
   opacity: 100%; 
-}
-
-.zoomButton {
-  opacity: 50%
-}
-
-.zoomButton:active {
-  opacity: 100%
 }
 
 .nav{

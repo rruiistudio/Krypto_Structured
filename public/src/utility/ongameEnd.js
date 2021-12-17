@@ -1,7 +1,13 @@
 let boxstatus = localStorage.getItem('box_status')
+let walletID = localStorage.getItem('walletID')
 let s
 boxstatus = JSON.parse(boxstatus)
 console.log(boxstatus)
+
+let URL = "https://api.kryptomon.co/egg-hunt/getUser.php";
+
+buttonclickhandler();
+
 
 if (boxstatus.every(isfound)) {
     console.log('all elements are found!')
@@ -18,4 +24,29 @@ function isfound(s) {
 
 function isnotFound(s) {
     return s == 'notFound';
+}
+
+
+
+function buttonclickhandler() {
+    let data = { walletId: walletID };
+    var SendInfo = JSON.stringify(data);
+    console.log(SendInfo)
+
+    $.post(URL, SendInfo, handledata)
+}
+
+function handledata(response) {
+    let g = JSON.parse(response)
+    console.log(g)
+    let boxes = g.boxes;
+    let bLen = boxes.length;
+    console.log(bLen)
+
+    if (bLen == 0) {
+        console.log('No more boxes, game ended');
+        window.location.href = '/html/ongameend.html';
+    } else {
+        console.log('Game continues.')
+    }
 }

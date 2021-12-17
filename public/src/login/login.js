@@ -170,8 +170,6 @@ export default function loginSuccess() {
     value = document.getElementById('login').value;
     let t
 
-    //let fetchBtn = document.getElementById("verif");
-    //fetchBtn.addEventListener("click", buttonclickhandler);
     let data = { walletId: value };
     let URL = "https://api.kryptomon.co/egg-hunt/getUser.php";
 
@@ -194,9 +192,15 @@ export default function loginSuccess() {
         id = g.walletID;
         let boxes = g.boxes;
         console.log(boxes)
+        let bLen = boxes.length;
+        console.log(bLen)
 
-        //let boxesMsg = [boxes[0].message, boxes[1].message, boxes[2].message];
-        //console.log(boxesMsg);
+        if (bLen == 0) {
+            console.log('No more boxes, game ended')
+        } else {
+            console.log('Game continues.')
+        }
+
         console.log(id)
     
         if (status == 'listed') {

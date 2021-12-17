@@ -135,7 +135,7 @@ function successLocation(position) {
                 moveControls();
                 
         } else {
-                setTimeout(moveControls, 5000)
+                setTimeout(moveControls, 10000)
         }
 
         function moveControls(){
