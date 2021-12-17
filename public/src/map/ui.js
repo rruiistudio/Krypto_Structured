@@ -270,6 +270,8 @@ export function appendLocation() {
                 head.style.zIndex = 2;
                 corners.style.zIndex = 2;
                 d.style.zIndex = 3;
+                f.style.zIndex = 3; 
+                div.style.zIndex = 3; 
                 count = 0;
             }
 

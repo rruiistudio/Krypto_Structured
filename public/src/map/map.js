@@ -130,12 +130,32 @@ function successLocation(position) {
         let zoomin = document.getElementById('zoomin')
         let zoomout = document.getElementById('zoomout')
 
-        if (!heading == null) {
-                map.rotateTo(heading)
+        let isMoving = map.isMoving();
+        console.log(isMoving)
 
+        if (isMoving == false) {
+                moveControls();
+                
         } else {
-                let bearing = turf.bearing(watchlocation, boxlist[closestItem])
-                map.rotateTo(bearing)
+                setTimeout(moveControls, 5000)
+        }
+
+        function moveControls(){
+                if (!heading == null) {
+                        map.flyTo({
+                                center: userlocation,
+                                zoom: 20,
+                                bearing: heading
+                        })
+        
+                } else {
+                        let bearing = turf.bearing(watchlocation, boxlist[closestItem])
+                        map.flyTo({
+                                center: userlocation,
+                                zoom: 20,
+                                bearing: bearing
+                        })
+                }
         }
 
         zoomin.addEventListener('click', onzoomin)
@@ -526,7 +546,7 @@ function addData(map, layer, data) {
 export default function approvelocation(counter, no) {
         console.log("this is from the approvelocation function")
         if (counter == no) {
-                updateLocation();
+                //updateLocation();
                 addInfo(map, 'radius', filter, 'white');
                 const watchID = navigator.geolocation.watchPosition(successLocation, errorLocation,
                         {
