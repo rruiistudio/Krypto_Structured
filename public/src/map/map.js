@@ -126,9 +126,7 @@ function successLocation(position) {
         console.log('watching location successfully')
         //replaceClass(boxstatus);
         unlockBox(newdistance, closestItem, boxstatus);
-
-        let zoomin = document.getElementById('zoomin')
-        let zoomout = document.getElementById('zoomout')
+        
 
         let isMoving = map.isMoving();
         console.log(isMoving)
@@ -158,9 +156,19 @@ function successLocation(position) {
                 }
         }
 
-        zoomin.addEventListener('click', onzoomin)
-        zoomout.addEventListener('click', onzoomout)
 
+        if (document.body.contains(document.getElementById('zoomin'))) {
+                let zoomin = document.getElementById('zoomin')
+                zoomin.addEventListener('click', onzoomin)
+
+        }
+
+        if (document.body.contains(document.getElementById('zoomout'))) {
+                let zoomout = document.getElementById('zoomout')
+                zoomout.addEventListener('click', onzoomout)
+
+        }
+        
         function onzoomin() {
                 console.log('ive definitely zoomedin on that one')
                 map.flyTo({
