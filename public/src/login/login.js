@@ -62,27 +62,24 @@ export async function spawnBox(userlocation) {
     place.features.forEach(el => {
         let d = el.properties.tilequery.distance
         placetag.push(d)
-        
-
         return placetag
     })
-
-    let maxdistance = Math.max(parseFloat(placetag))
-    let furthestplace = place.features[placetag.indexOf(maxdistance)].geometry.coordinates
 
     console.log(`The furthest place from the user is ${furthestplace}`)
 
     var spawnboxcenter
-    
+
     if (place.features.length = 0) {
         spawnboxcenter = userlocation
         console.log('Could not find the furthest point, using user location instead.')
     } else {
+        let maxdistance = Math.max(parseFloat(placetag))
+        let furthestplace = place.features[placetag.indexOf(maxdistance)].geometry.coordinates
         spawnboxcenter = furthestplace
         console.log('Found the furthest place around the user settlement')
     }
-    
-        
+
+
     const limit = 48;
     const radius = 5000; // in meters
     const layers = ['poi_label'];
@@ -91,7 +88,7 @@ export async function spawnBox(userlocation) {
         `https://api.mapbox.com/v4/${tileset}/tilequery/${spawnboxcenter[0]},${spawnboxcenter[1]}.json?radius=${radius}&limit=${limit}&layers=${layers}&geometry=${geometry}&access_token=${mapboxgl.accessToken}`,
         { method: 'GET' }
     );
-    const json = await query.json(); 
+    const json = await query.json();
     console.log(json)
 
     let jsoncoords = []
@@ -125,7 +122,7 @@ export async function spawnBox(userlocation) {
         selected = selected.slice(Math.max(selected.length - 3, 0))
         console.log('Found places at the correct distance.')
     }
-    
+
 
     //selected = selected.slice(Math.max(selected.length - 3, 0))
     console.log(selected)
