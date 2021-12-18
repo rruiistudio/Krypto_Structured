@@ -47,7 +47,7 @@ export async function spawnBox(userlocation) {
     var point = [userlocation[0], userlocation[1]]
     const tileset = "mapbox.mapbox-streets-v8";
     const climit = 4;
-    const cradius = 500000;
+    const cradius = 10000;
     const clayer = ['place_label', 'country', 'state']
     const querysettlement = await fetch(
         `https://api.mapbox.com/v4/${tileset}/tilequery/${point[0]},${point[1]}.json?radius=${cradius}&limit=${climit}&layers=${clayer}&access_token=${mapboxgl.accessToken}`,
@@ -55,7 +55,7 @@ export async function spawnBox(userlocation) {
     );
 
     var place = await querysettlement.json();
-    console.log(place)
+    console.log(place.features.length)
 
     let placetag = []
 
@@ -70,11 +70,11 @@ export async function spawnBox(userlocation) {
     let maxdistance = Math.max(parseFloat(placetag))
     let furthestplace = place.features[placetag.indexOf(maxdistance)].geometry.coordinates
 
-    console.log(furthestplace)
+    console.log(`The furthest place from the user is ${furthestplace}`)
 
     var spawnboxcenter
     
-    if (typeof furthestplace === 'undefined') {
+    if (place.features.length = 0) {
         spawnboxcenter = userlocation
         console.log('Could not find the furthest point, using user location instead.')
     } else {
