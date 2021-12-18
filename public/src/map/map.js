@@ -205,9 +205,8 @@ function successLocation(position) {
 
 function updateboxdistance(text) {
         if (document.getElementById('boxdist')) {
-                document.getElementById('boxdist').innerHTML = text;
+                document.getElementById('boxdist').innerHTML = `${text} m away`;
                 console.log(`The current distance to the box is ${text}`)
-                return boxpop
         }
 }
 
