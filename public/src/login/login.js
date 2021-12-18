@@ -15,7 +15,6 @@ var options = {
 
 };
 
-
 export function success(pos) {
     let long = pos.coords.longitude;
     let lat = pos.coords.latitude;
@@ -47,7 +46,7 @@ export async function spawnBox(userlocation) {
     var point = [userlocation[0], userlocation[1]]
     const tileset = "mapbox.mapbox-streets-v8";
     const climit = 48;
-    const cradius = 10000;
+    const cradius = 6000;
     const clayer = ['place_label', 'country', 'state']
     const querysettlement = await fetch(
         `https://api.mapbox.com/v4/${tileset}/tilequery/${point[0]},${point[1]}.json?radius=${cradius}&limit=${climit}&layers=${clayer}&access_token=${mapboxgl.accessToken}`,
@@ -62,7 +61,6 @@ export async function spawnBox(userlocation) {
     place.features.forEach(el => {
         let d = el.properties.tilequery.distance
         placetag.push(d)
-        console.log(placetag)
         return placetag
     })
 

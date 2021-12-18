@@ -487,6 +487,15 @@ body {
     }
   }
 
+  @keyframes load {
+    0% {
+      width:1vw;
+    }
+    100% {
+      width:60vw;   
+    }
+  }
+
   @keyframes boxpulse {
     0% {
       opacity: 85%;

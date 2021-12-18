@@ -133,8 +133,8 @@ function successLocation(position) {
         console.log(isMoving)
 
         if (isMoving == false) {
-                stopfly = false;
-                setTimeout(moveControls, 5000)
+                setTimeout(stopfly = false, 3000)
+                moveControls();
         }
 
         if (isMoving == true) {
@@ -182,15 +182,18 @@ function successLocation(position) {
                         bearing: bearing
                 })
 
+                stopfly = false;
         }
 
         function onzoomout() {
+                stopfly = true;
                 console.log('deeeefintely zooming out now')
                 map.flyTo({
                         center: center,
                         zoom: 15,
                         bearing: bearing
                 })
+
         }
 
 

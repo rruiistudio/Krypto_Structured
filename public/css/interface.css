@@ -117,4 +117,26 @@ body {
             transform: rotate(360deg);
   }
 }
+
+@-webkit-keyframes load {
+  0% {
+    width: 1vw;
+    height: 2.5vh;
+  }
+  100% {
+    width: 60vw;
+    height: 2.5vh;
+  }
+}
+
+@keyframes load {
+  0% {
+    width: 1vw;
+    height: 2.5vh;
+  }
+  100% {
+    width: 60vw;
+    height: 2.5vh;
+  }
+}
 /*# sourceMappingURL=interface.css.map */
