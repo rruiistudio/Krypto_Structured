@@ -124,7 +124,6 @@ function successLocation(position) {
         let filter = makeRadius(userlocation, searchradius);
         addData(map, radiusLayer, filter);
         console.log('watching location successfully')
-        //replaceClass(boxstatus);
         unlockBox(newdistance, closestItem, boxstatus);
         let bearing = turf.bearing(watchlocation, boxlist[closestItem])
 
@@ -156,7 +155,7 @@ function successLocation(position) {
                                 map.flyTo({
                                         center: watchlocation,
                                         zoom: 20,
-                                        bearing: bearing
+                                        bearing: heading
                                 })
                         }
                 }
