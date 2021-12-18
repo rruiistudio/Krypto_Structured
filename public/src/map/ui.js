@@ -186,7 +186,7 @@ export function appendLocation() {
     function countboxes() {
         let boxstatus = localStorage.getItem('box_status')
         boxstatus = JSON.parse(boxstatus)
-        console.log(boxstatus)
+        console.log(`Box status retrieved from storage is: ${boxstatus}`)
 
         let count = 0
         count = countfound(boxstatus);
@@ -294,7 +294,7 @@ function changeScreen() {
     ui.style.backgroundColor = 'transparent';
 
     if (counter < 2) {
-        console.log(counter)
+        console.log(`Change screen counter is: ${counter}`)
         appendElement(screens[counter]);
     }
 

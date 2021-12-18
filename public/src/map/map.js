@@ -21,7 +21,7 @@ let popupID;
 
 
 let playerID = localStorage.getItem('walletID');
-console.log(playerID)
+console.log(`User walled id retrieved from storage: ${playerID}`)
 
 function initialStatus() {
         if (localStorage.getItem('box_status') == null) {
@@ -32,7 +32,7 @@ function initialStatus() {
 initialStatus();
 
 let boxstatus = JSON.parse(localStorage.getItem('box_status'));
-console.log(boxstatus)
+console.log(`Box status retrieved from storage: ${boxstatus}`)
 
 //--------------------------------------------------------------------------------------------------------------------//
 
@@ -47,10 +47,9 @@ redirect();
 
 // add a buffer --> on map load in here
 coords = [localStorage.getItem('userLong'), localStorage.getItem('userLat')]
-console.log('items retrieved')
 let userlocation = [parseFloat(coords[0]), parseFloat(coords[1])];
+console.log(`User location retrieved from storage: ${userlocation}`)
 
-console.log(userlocation)
 export var map = setupMap([-2.24, 53.48]);
 let user = marker(userlocation);
 
@@ -58,7 +57,6 @@ let user = marker(userlocation);
 //INITIALIZE BOXES
 
 boxlist = storeBox()
-console.log(boxlist)
 
 distA.push(calculateDistance(boxlist[0], userlocation),
         calculateDistance(boxlist[1], userlocation),
@@ -66,10 +64,9 @@ distA.push(calculateDistance(boxlist[0], userlocation),
 );
 
 export var closestItem = whichBox(boxlist, boxstatus, distA)
-console.log(closestItem)
 
-console.log(boxlist[closestItem])
 console.log(`The spawned boxes are ${boxlist}`)
+console.log(`The generated route is towards are ${boxlist[closestItem]}`)
 mysterybox(boxlist[closestItem]);
 
 
@@ -104,7 +101,6 @@ function initialFly() {
 
 
 function successLocation(position) {
-        console.log(position)
         long = position.coords.longitude;
         lat = position.coords.latitude;
         let heading = position.coords.heading;
@@ -137,7 +133,7 @@ function successLocation(position) {
 
         let isMoving = map.isMoving();
         let stopfly = false;
-        console.log(isMoving)
+        console.log(`Map touch events status ${isMoving}`)
 
         if (isMoving == false) {
                 stopfly = false
@@ -354,22 +350,29 @@ function updateMarker(marker, center) {
 // 3: ADD MYSTERY BOXES: 
 
 function storeBox() {
-        console.log("the store box function is ok")
-
         let box1 = localStorage.getItem('box1');
-        box1 = box1.split(',')
-        box1 = [parseFloat(box1[0]), parseFloat(box1[1])]
+        if(box1!==null){
+                box1 = box1.split(',')
+                box1 = [parseFloat(box1[0]), parseFloat(box1[1])]
+        } else {
+                console.log('Boxes could not be found- game started without')
+        }
 
         let box2 = localStorage.getItem('box2');
-        box2 = box2.split(',')
-        box2 = [parseFloat(box2[0]), parseFloat(box2[1])]
+        if(box2!==null){
+                box2 = box2.split(',')
+                box2 = [parseFloat(box2[0]), parseFloat(box2[1])]
+        }
 
         let box3 = localStorage.getItem('box3');
-        box3 = box3.split(',')
-        box3 = [parseFloat(box3[0]), parseFloat(box3[1])]
+        //box3 = box3.split(',')
+        if(box3!==null){
+                box3 = box3.split(',')
+                box3 = [parseFloat(box3[0]), parseFloat(box3[1])]
+        }
 
         boxlist = [box1, box2, box3];
-        console.log('item retrieved');
+        console.log('Box locations retrieved from local storage');
 
         return boxlist
 }
@@ -423,7 +426,6 @@ function whichBox(list, status, distances) {
                 if (status[i] == 'notFound') {
                         let bdist = calculateDistance(box, userlocation);
                         availableb.push(bdist);
-                        console.log(availableb)
 
                         return availableb
                 }
@@ -431,7 +433,7 @@ function whichBox(list, status, distances) {
 
         const min = Math.min(...availableb);
         let index = distances.indexOf(min);
-        console.log(index)
+        console.log(`Spawning box with index: ${index}`)
         return index
 }
 
@@ -556,7 +558,6 @@ export default function approvelocation(counter, no) {
                                 showUserHeading: true
                         })
 
-                console.log(user)
                 return watchID;
         }
 

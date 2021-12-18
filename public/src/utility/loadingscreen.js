@@ -23,7 +23,7 @@ function createscreen(){
 
     div.appendChild(logo); 
 
-    console.log('this function ran')
+    console.log('Loading screen completed')
     document.getElementById('cont').appendChild(div); 
 
     return div
