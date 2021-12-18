@@ -132,16 +132,13 @@ function successLocation(position) {
         console.log(isMoving)
 
         if (isMoving == false) {
-                moveControls();
-                
-        } else {
-                setTimeout(moveControls, 10000)
-        }
+                setTimeout(moveControls, 10000)      
+        } 
 
         function moveControls(){
                 if (!heading == null) {
                         map.flyTo({
-                                center: userlocation,
+                                center: watchlocation,
                                 zoom: 20,
                                 bearing: heading
                         })
@@ -149,7 +146,7 @@ function successLocation(position) {
                 } else {
                         let bearing = turf.bearing(watchlocation, boxlist[closestItem])
                         map.flyTo({
-                                center: userlocation,
+                                center: watchlocation,
                                 zoom: 20,
                                 bearing: bearing
                         })
@@ -173,7 +170,8 @@ function successLocation(position) {
                 console.log('ive definitely zoomedin on that one')
                 map.flyTo({
                         center: userlocation,
-                        zoom: 25
+                        zoom: 25,
+                        bearing: heading
                 })
 
         }
@@ -182,7 +180,8 @@ function successLocation(position) {
                 console.log('deeeefintely zooming out now')
                 map.flyTo({
                         center: center,
-                        zoom: 15
+                        zoom: 15,
+                        bearing: heading
                 })
         }
 

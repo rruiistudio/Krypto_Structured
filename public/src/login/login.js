@@ -47,7 +47,7 @@ export async function spawnBox(userlocation) {
     const limit = 48;
     const radius = 5000; // in meters
     const tileset = "mapbox.mapbox-streets-v8";
-    const layers = ['place_label', 'poi_label'];
+    const layers = ['theatre', 'education', 'medical','park_like','arts_and_entertainment'];
     const query = await fetch(
             `https://api.mapbox.com/v4/${tileset}/tilequery/${point[0]},${point[1]}.json?radius=${radius}&limit=${limit}&layers=${layers}&access_token=${mapboxgl.accessToken}`,
             { method: 'GET' }
@@ -89,12 +89,11 @@ export async function spawnBox(userlocation) {
     console.log(selected[0])
 
 
-
     function boxproximity(list, array, coords) {
         list.forEach(el => {
             let i = list.indexOf(el);
             let newitem = coords[i]
-            if (el > 200 & !array.includes(newitem)) {
+            if (el > 700 & !array.includes(newitem)) {
                 array.push(newitem);
             }
 
