@@ -28,6 +28,16 @@ function isnotFound(s) {
 
 
 function buttonclickhandler() {
+    if (walletID == null){
+        let button = document.getElementById('verif')
+
+        function getdata() {
+            walletID = document.getElementById('login').value
+            return walletID
+        }
+
+        button.addEventListener('click', getdata)
+    }
     let data = { walletId: walletID };
     var SendInfo = JSON.stringify(data);
     console.log(SendInfo)

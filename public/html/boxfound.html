@@ -23,7 +23,7 @@
                 <p id="textarea"></p>
             </div>
         </div>
-        <img id="return" class="logbutton" src="../images/return_button.png">
+        <img id="return" class="logbutton" src="../images/return_button.png" style="visibility: hidden;">
         <div class="corners" id="corners" width=100% height=100%>
             <img src="../images/sp_left.png" id="leftP" width="35%" height="35%">
             <img src="../images/sp_right.png" id="rightP" width="35%" height="35%">
@@ -44,6 +44,10 @@
     let t = document.getElementById('text')
     let i = document.getElementById('egg')
     let c = document.getElementById('confetti')
+
+    let egg = "../images/Egg_Image.png";
+    let lootbox =  "../images/loot_box.png";
+
     t.style.paddingRight = '15%'
     t.style.paddingLeft = '15%'
     t.style.fontSize = '25px'
@@ -80,18 +84,21 @@
 
         if (b == 'egg') {
             text = 'Congratulations! You have won an egg!'
-            i.src = "../images/Egg_Image.png"
+            i.src = egg
+            button.style.visibility = "visible";
         }
 
         if (b == 'lootbox') {
-            i.src = "../images/loot_box.png"
+            i.src = lootbox
             i.style.width = '60%'
             text = "Congratulations! You have won a lootbox!"
+            button.style.visibility = "visible";
         }
 
         if (b == 'empty') {
             text = 'Sorry, this mysterybox is empty!';
             c.style.visibility = 'hidden';
+            button.style.visibility = "visible";
         }
 
         textarea.innerHTML = text;
