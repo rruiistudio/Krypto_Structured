@@ -115,25 +115,24 @@ function successLocation(position) {
 
         console.log(heading)
 
-        if (accuracy < 20) {
-                updateMarker(user, watchlocation);
-                getRoute(watchlocation, boxlist[closestItem])
-        }
-        
+        updateMarker(user, watchlocation);
+        getRoute(watchlocation, boxlist[closestItem])
+
         let newdistance = calculateDistance(watchlocation, boxlist[closestItem])
         console.log(watchlocation)
 
         let center = [((watchlocation[0] + boxlist[closestItem][0]) / 2), ((watchlocation[1] + boxlist[closestItem][1]) / 2)]
         console.log(center)
 
-        
-       
-
         let filter = makeRadius(userlocation, searchradius);
         addData(map, radiusLayer, filter);
         console.log('watching location successfully')
         unlockBox(newdistance, closestItem, boxstatus);
         let bearing = turf.bearing(watchlocation, boxlist[closestItem])
+
+        let orientation
+        orientation = getHeading();
+        console.log(orientation)
 
 
         let isMoving = map.isMoving();
@@ -150,22 +149,24 @@ function successLocation(position) {
         }
 
 
+        function getHeading() {
+                if (heading == null) {
+                        orientation = bearing;
+                } else {
+                        orientation = heading;
+                }
+                return orientation
+        }
+
+
         function moveControls() {
                 if (stopfly == false) {
-                        if (heading == null) {
-                                map.flyTo({
-                                        center: watchlocation,
-                                        zoom: 20,
-                                        bearing: bearing
-                                })
-                        } else {
-                                console.log(heading);
-                                map.flyTo({
-                                        center: watchlocation,
-                                        zoom: 20,
-                                        bearing: heading
-                                })
-                        }
+
+                        map.flyTo({
+                                center: watchlocation,
+                                zoom: 20,
+                                bearing: orientation
+                        })
                 }
         }
 
@@ -186,7 +187,7 @@ function successLocation(position) {
                 map.flyTo({
                         center: watchlocation,
                         zoom: 22,
-                        bearing: bearing
+                        bearing: orientation
                 })
 
                 stopfly = false;
@@ -198,7 +199,7 @@ function successLocation(position) {
                 map.flyTo({
                         center: center,
                         zoom: 15,
-                        bearing: bearing
+                        bearing: orientation
                 })
 
         }

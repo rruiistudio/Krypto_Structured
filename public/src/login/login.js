@@ -79,7 +79,7 @@ export async function spawnBox(userlocation) {
 
 
     const limit = 48;
-    const radius = 5000; // in meters
+    const radius = 3500; // in meters
     const layers = ['poi_label'];
     const geometry = "point"
     const query = await fetch(
