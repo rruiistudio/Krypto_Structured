@@ -65,8 +65,6 @@ export async function spawnBox(userlocation) {
         return placetag
     })
 
-    console.log(`The furthest place from the user is ${furthestplace}`)
-
     var spawnboxcenter
 
     if (place.features.length = 0) {
@@ -76,7 +74,7 @@ export async function spawnBox(userlocation) {
         let maxdistance = Math.max(parseFloat(placetag))
         let furthestplace = place.features[placetag.indexOf(maxdistance)].geometry.coordinates
         spawnboxcenter = furthestplace
-        console.log('Found the furthest place around the user settlement')
+        console.log(`Found the furthest place around the user settlement = ${furthestplace}`)
     }
 
 

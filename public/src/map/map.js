@@ -126,33 +126,32 @@ function successLocation(position) {
         console.log('watching location successfully')
         //replaceClass(boxstatus);
         unlockBox(newdistance, closestItem, boxstatus);
-        
+
 
         let isMoving = map.isMoving();
         console.log(isMoving)
 
         if (isMoving == false) {
-                setTimeout(moveControls, 10000)      
-        } 
+                setTimeout(moveControls, 10000)
+        }
 
-        function moveControls(){
-                if (!heading == null) {
-                        map.flyTo({
-                                center: watchlocation,
-                                zoom: 20,
-                                bearing: heading
-                        })
-        
-                } else {
+        function moveControls() {
+                if (heading == null) {
                         let bearing = turf.bearing(watchlocation, boxlist[closestItem])
                         map.flyTo({
                                 center: watchlocation,
                                 zoom: 20,
                                 bearing: bearing
                         })
+                } else {
+                        console.log(heading);
+                        map.flyTo({
+                                center: watchlocation,
+                                zoom: 20,
+                                bearing: heading
+                        })
                 }
         }
-
 
         if (document.body.contains(document.getElementById('zoomin'))) {
                 let zoomin = document.getElementById('zoomin')
@@ -165,12 +164,12 @@ function successLocation(position) {
                 zoomout.addEventListener('click', onzoomout)
 
         }
-        
+
         function onzoomin() {
                 console.log('ive definitely zoomedin on that one')
                 map.flyTo({
-                        center: userlocation,
-                        zoom: 25,
+                        center: watchlocation,
+                        zoom: 22,
                         bearing: heading
                 })
 
@@ -263,7 +262,7 @@ function passboxfound() {
 
         function handledata(res) {
                 let g = JSON.parse(res)
-        
+
                 if (g == 'success') {
                         console.log(`Successfully passed ${b} as unlocked belonging to user ${userID}`)
                 } else {
