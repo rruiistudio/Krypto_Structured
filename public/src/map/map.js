@@ -581,8 +581,31 @@ export default function approvelocation(counter, no) {
 export function updateLocation() {
         let newlocation = initialFly();
         return newlocation
-
 }
+
+function randomGeo(center, radius) {
+        var y0 = center[0];
+        var x0 = center[1];
+        var rd = radius / 111300; //about 111300 meters in one degree
+    
+        var u = Math.random();
+        var v = Math.random();
+    
+        var w = rd * Math.sqrt(u);
+        var t = 2 * Math.PI * v;
+        var x = w * Math.cos(t);
+        var y = w * Math.sin(t);
+    
+        //Adjust the x-coordinate for the shrinking of the east-west distances
+        var xp = x / Math.cos(y0);
+    
+        var newlat = y + y0;
+        var newlon = x + x0;
+        var newlon2 = xp + x0;
+    
+        return [parseFloat(newlat.toFixed(5)), parseFloat(newlon.toFixed(5))]
+    
+    }
 
 
 

@@ -242,4 +242,7 @@ let button = document.getElementById('verif');
 
 redirect();
 loadconfirm();
-button.addEventListener('click', loginSuccess);
+
+if (button) {
+    button.addEventListener('click', loginSuccess);
+}
