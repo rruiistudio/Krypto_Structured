@@ -94,7 +94,7 @@ export async function spawnBox(userlocation) {
         list.forEach(el => {
             let i = list.indexOf(el);
             let newitem = coords[i]
-            if (el > 700 & !array.includes(newitem)) {
+            if (el > 200 & !array.includes(newitem)) {
                 array.push(newitem);
             }
 
