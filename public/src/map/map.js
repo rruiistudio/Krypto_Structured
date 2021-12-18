@@ -1,6 +1,6 @@
 import mobileAndTabletCheck, { redirect } from '../utility/utilities.js';
 import routetoggle from './ui.js';
-import randomGeo from '../login/login.js'
+//import randomGeo from '../login/login.js'
 
 
 //DECLARE VARIABLES
