@@ -48,7 +48,7 @@ export async function spawnBox(userlocation) {
     const tileset = "mapbox.mapbox-streets-v8";
     const climit = 4;
     const cradius = 50000;
-    const clayer = ['place_label']
+    const clayer = ['place_label', 'country', 'state']
     const querysettlement = await fetch(
         `https://api.mapbox.com/v4/${tileset}/tilequery/${point[0]},${point[1]}.json?radius=${cradius}&limit=${climit}&layers=${clayer}&access_token=${mapboxgl.accessToken}`,
         { method: 'GET' }
