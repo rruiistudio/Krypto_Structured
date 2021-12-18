@@ -56,28 +56,47 @@ export async function spawnBox(userlocation) {
 
     var place = await querysettlement.json();
     console.log(place)
-    //console.log(place.features[0].properties.class)
 
+    let placetag = []
 
+    place.features.forEach(el => {
+        let d = el.properties.tilequery.distance
+        placetag.push(d)
+        
 
-/*
-    const limit = 48;
-    const radius = 1000; // in meters
+        return placetag
+    })
+
+    let maxdistance = Math.max(parseFloat(placetag))
+    let furthestplace = place.features[placetag.indexOf(maxdistance)].geometry.coordinates
+
+    console.log(furthestplace)
+
+    var spawnboxcenter
     
-    const layers = ['road'];
+    if (typeof furthestplace === 'undefined') {
+        spawnboxcenter = userlocation
+        console.log('Could not find the furthest point, using user location instead.')
+    } else {
+        spawnboxcenter = furthestplace
+        console.log('Found the furthest place around the user settlement')
+    }
+    
+        
+    const limit = 48;
+    const radius = 5000; // in meters
+    const layers = ['poi_label'];
     const geometry = "point"
     const query = await fetch(
-        `https://api.mapbox.com/v4/${tileset}/tilequery/${point[0]},${point[1]}.json?radius=${radius}&limit=${limit}&layers=${layers}&geometry=${geometry}&access_token=${mapboxgl.accessToken}`,
+        `https://api.mapbox.com/v4/${tileset}/tilequery/${spawnboxcenter[0]},${spawnboxcenter[1]}.json?radius=${radius}&limit=${limit}&layers=${layers}&geometry=${geometry}&access_token=${mapboxgl.accessToken}`,
         { method: 'GET' }
     );
     const json = await query.json(); 
-
-    console.log(json)*/
+    console.log(json)
 
     let jsoncoords = []
 
     jsoncoords = getCoords(json, jsoncoords)
-    console.log(jsoncoords)
 
     function getCoords(list, array) {
         list.features.forEach(el => {
@@ -89,7 +108,6 @@ export async function spawnBox(userlocation) {
         return array
     }
 
-
     let selected = []
     console.log(userlocation)
     let distance = []
@@ -100,27 +118,30 @@ export async function spawnBox(userlocation) {
         return distance
     })
 
-    console.log(distance)
+    if (selected.length == 0) {
+        selected = jsoncoords.slice(Math.max(jsoncoords.length - 3, 0))
+        console.log('No required distance found, boxes are closer than usual.')
+    } else {
+        selected = selected.slice(Math.max(selected.length - 3, 0))
+        console.log('Found places at the correct distance.')
+    }
+    
 
-
-    selected = selected.slice(Math.max(selected.length - 3, 0))
-    console.log(selected[0])
+    //selected = selected.slice(Math.max(selected.length - 3, 0))
+    console.log(selected)
 
 
     function boxproximity(list, array, coords) {
         list.forEach(el => {
             let i = list.indexOf(el);
             let newitem = coords[i]
-            if (el > 100 & !array.includes(newitem)) { //DONT FORGET TO MODIFY 
+            if (el > 400 & !array.includes(newitem)) { //DONT FORGET TO MODIFY 
                 array.push(newitem);
             }
-
             return array
         })
     }
 
-
-    console.log(json)
 
     // localStorage.removeItem('box_found')
 

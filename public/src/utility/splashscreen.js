@@ -7,8 +7,8 @@ function createscreen(){
     const logo = document.createElement('img');
 
     logo.src = "../images/win_background.png";
-    logo.style.width = "100%"
-    logo.style.height = "107%"
+    logo.style.width = "200%"
+    logo.style.height = "200%"
     logo.style.marginTop= "-5%"
     logo.style.position = "absolute"
     logo.style.zIndex = "0"
