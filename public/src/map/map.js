@@ -20,6 +20,12 @@ let found;
 let watchlocation;
 let user;
 let userlocation;
+let closestItem;
+let set = false
+let hasrun = false;
+
+
+let radius = 700;
 
 
 let playerID = localStorage.getItem('walletID');
@@ -31,8 +37,8 @@ if (localStorage.getItem('box_status')) {
         boxstatus = JSON.parse(localStorage.getItem('box_status'));
 
 } else {
-        let status = ['notFound', 'notFound', 'notFound']
-        localStorage.setItem('box_status', JSON.stringify(status))
+        boxstatus = ['notFound', 'notFound', 'notFound']
+        localStorage.setItem('box_status', JSON.stringify(boxstatus))
 }
 
 console.log(`Box status retrieved from storage: ${boxstatus}`)
@@ -48,63 +54,57 @@ redirect();
 //INITIALIZE MAP
 
 // add a buffer --> on map load in here
-if (localStorage.getItem('userLong') & localStorage.getItem('userLat')) {
-        coords = [localStorage.getItem('userLong'), localStorage.getItem('userLat')]
-        let userlocation = [parseFloat(coords[0]), parseFloat(coords[1])];
-        console.log(`User location retrieved from storage: ${userlocation}`)
-        user = marker(userlocation);
-}else {
-        userlocation = updateLocation();
-        user = marker(userlocation);
-}
-
 export var map = setupMap([-2.24, 53.48]);
-
-
 
 //INITIALIZE BOXES
 
 boxlist = storeBox()
+console.log(boxlist)
+console.log(userlocation)
 
-distA.push(calculateDistance(boxlist[0], userlocation),
-        calculateDistance(boxlist[1], userlocation),
-        calculateDistance(boxlist[2], userlocation)
-);
 
-export var closestItem = whichBox(boxlist, boxstatus, distA)
+if (localStorage.getItem('userLong') && localStorage.getItem('userLat') && localStorage.getItem('userLong') !== null){
+        coords = [localStorage.getItem('userLong'), localStorage.getItem('userLat')]
+        userlocation = [parseFloat(coords[0]), parseFloat(coords[1])];
+        user = marker(userlocation);
+        console.log(`User location retrieved from storage: ${userlocation}`)
+} 
 
-console.log(`The spawned boxes are ${boxlist}`)
-console.log(`The generated route is towards are ${boxlist[closestItem]}`)
-mysterybox(boxlist[closestItem]);
+
+
+if (userlocation && boxlist) {
+        distA.push(calculateDistance(boxlist[0], userlocation),
+                calculateDistance(boxlist[1], userlocation),
+                calculateDistance(boxlist[2], userlocation)
+        );
+
+        console.log(distA)
+        
+}
+
+
+
+if (boxlist && boxstatus && distA && userlocation) {
+        closestItem = whichBox(boxlist, boxstatus, distA, userlocation)
+}
+
+if (boxlist && closestItem) {
+        console.log(`The spawned boxes are ${boxlist}`)
+        console.log(`The generated route is towards are ${boxlist[closestItem]}`)
+        mysterybox(boxlist[closestItem]);
+}
 
 
 
 //INTIALIZE ROUTE TO CLOSEST BOX
 //---->route is always initialised to the closest available item
-
-getRoute(userlocation, boxlist[closestItem]) // gets Initial route
-
-
-// UTILITY FUNCTIONS
-//redundant function
-function initialFly() {
-        navigator.geolocation.getCurrentPosition((position) => {
-                map.flyTo({
-                        center: [position.coords.longitude, position.coords.latitude],
-                        zoom: 20,
-                        speed: 1.5,
-                        curve: 1,
-                })
-
-
-                let newlong = position.coords.longitude;
-                let newlat = position.coords.latitude;
-                let watchlocation = [long, lat]
-
-        })
+if (userlocation && boxlist && closestItem) {
+        getRoute(userlocation, boxlist[closestItem])  // gets Initial route
 }
 
 
+
+// UTILITY FUNCTIONS
 //-------------------------------------------------------------------------------------------------------------------//
 
 
@@ -112,28 +112,57 @@ function successLocation(position) {
         long = position.coords.longitude;
         lat = position.coords.latitude;
         let heading = position.coords.heading;
+        let i
 
+        if (localStorage.getItem('i') || typeof closestItem == 'undefined'){
+                i = localStorage.getItem('i')
+        } else {
+                i = closestItem
+        }
+        
+
+        if (boxlist.includes(null) || typeof boxlist === 'undefined') {
+                let box1 = JSON.parse(localStorage.getItem('box1'))
+                let box2 = JSON.parse(localStorage.getItem('box2'))
+                let box3 = JSON.parse(localStorage.getItem('box3'))
+
+                boxlist = [box1, box2, box3]
+        } else {
+                boxlist = boxlist;
+        }
+
+        console.log(i)
+        console.log(boxlist[i])
+        console.log(boxlist)
+
+        
+        if (hasrun == false) {
+                if (set == false) {
+                        mysterybox(boxlist[i]);
+                        set = true;
+                }
+        }
+        
         let accuracy = position.coords.accuracy;
         console.log(`The current tracking accuracy is ${accuracy}`)
         watchlocation = [long, lat]
         console.log(`The user current location is ${watchlocation}`)
+        console.log(boxlist[i])
 
         updateMarker(user, watchlocation);
-        getRoute(watchlocation, boxlist[closestItem]);
+        getRoute(watchlocation, boxlist[i]);
 
 
-        let newdistance = calculateDistance(watchlocation, boxlist[closestItem])
+        let newdistance = calculateDistance(watchlocation, boxlist[i])
+        console.log(newdistance)
         updateboxdistance(newdistance);
-        
 
 
-        let center = [((watchlocation[0] + boxlist[closestItem][0]) / 2), ((watchlocation[1] + boxlist[closestItem][1]) / 2)]
+        let center = [((watchlocation[0] + boxlist[i][0]) / 2), ((watchlocation[1] + boxlist[i][1]) / 2)]
         console.log(`The middle of the route is ${center}`)
 
-        let filter = makeRadius(userlocation, searchradius);
-        addData(map, radiusLayer, filter);
-        unlockBox(newdistance, closestItem, boxstatus);
-        let bearing = turf.bearing(watchlocation, boxlist[closestItem])
+        unlockBox(newdistance, i, boxstatus);
+        let bearing = turf.bearing(watchlocation, boxlist[i])
 
         let orientation
         orientation = getHeading();
@@ -246,6 +275,7 @@ function convertInactive(list, index) {
         localStorage.removeItem('box_status') // ---> in case it doesn't automatically override it
         localStorage.setItem('box_status', JSON.stringify(list));
         console.log(`Box number ${index} has been converted inactive`)
+        set = false;
 
         let el = document.getElementById('boxdiv');
         el.classList.add('boxfound');
@@ -312,7 +342,7 @@ function errorLocation() {
 
 //-------------------------------------------------------------------------------------------------------------------//
 
-// 1: CREATE A NEW MAP CONTAINER & PRE-SPECIFY ZOOM LEVEL 
+// 1: CREATE A NEW MAP CONTAINER && PRE-SPECIFY ZOOM LEVEL 
 function setupMap(center) {
         map = new mapboxgl.Map({
                 container: 'map',
@@ -359,31 +389,28 @@ function updateMarker(marker, center) {
 function storeBox() {
         let box1 = localStorage.getItem('box1');
         if (box1 !== null) {
-                box1 = box1.split(',')
-                box1 = [parseFloat(box1[0]), parseFloat(box1[1])]
+                box1 = JSON.parse(box1)
+                console.log(box1)
+                
         } else {
                 console.log('Boxes could not be found- game started without')
-                box1 = randomGeo(userlocation, radius);
-                localStorage.setItem('box1', box1);
+                navigator.geolocation.getCurrentPosition(success, error, options)
+                //localStorage.setItem('box1', box1);
         }
 
         let box2 = localStorage.getItem('box2');
         if (box2 !== null) {
-                box2 = box2.split(',')
-                box2 = [parseFloat(box2[0]), parseFloat(box2[1])]
-        }else{
-                box1 = randomGeo(userlocation, radius);
-                localStorage.setItem('box2', box2);
+                box2 = JSON.parse(box2)
+        } else {
+                navigator.geolocation.getCurrentPosition(success, error, options)
+                //localStorage.setItem('box2', box2);
         }
 
         let box3 = localStorage.getItem('box3');
-        box3 = box3.split(',')
         if (box3 !== null) {
-                box3 = box3.split(',')
-                box3 = [parseFloat(box3[0]), parseFloat(box3[1])]
-        }else{
-                box1 = randomGeo(userlocation, radius);
-                localStorage.setItem('box3', box3);
+                box3 = JSON.parse(box3)
+        } else {
+                navigator.geolocation.getCurrentPosition(success, error, options)
         }
 
         boxlist = [box1, box2, box3];
@@ -395,14 +422,15 @@ function storeBox() {
 
 // only load markers for one box at a time
 function mysterybox(element) {
+        hasrun = true;
         const el = document.createElement('div');
         el.classList.add('mark');
         el.id = "boxdiv";
 
-        let currentdistance
+        let currentdistance = ""
 
         if (typeof watchlocation === 'undefined') {
-                currentdistance = calculateDistance(element, userlocation)
+                //currentdistance = calculateDistance(element, userlocation)
         } else {
                 currentdistance = calculateDistance(element, watchlocation)
         }
@@ -434,21 +462,27 @@ export function calculateDistance(data, location) {
 
 }
 
-function whichBox(list, status, distances) {
+function whichBox(list, status, distances, userlocation) {
+        console.log(list)
+        console.log(distances)
+        console.log(userlocation)
         let availableb = []
         list.forEach(box => {
                 let i = list.indexOf(box)
                 if (status[i] == 'notFound') {
                         let bdist = calculateDistance(box, userlocation);
                         availableb.push(bdist);
+                        console.log(availableb)
 
                         return availableb
                 }
         })
 
         const min = Math.min(...availableb);
+        console.log(min);
         let index = distances.indexOf(min);
         console.log(`Spawning box with index: ${index}`)
+        localStorage.setItem('i', index);
         return index
 }
 
@@ -463,12 +497,12 @@ function makeRadius(lngLatArray, radiusInMeters) {
 }
 
 
-// 4: GENERATE DIRECTIONS BETWEEN USER LOCATION & CLICKED BOX
+// 4: GENERATE DIRECTIONS BETWEEN USER LOCATION && CLICKED BOX
 
 // A: create a function to make a directions request
 async function getRoute(start, end) {
         const query = await fetch(
-                `https://api.mapbox.com/directions/v5/mapbox/walking/${start[0]},${start[1]};${end[0]},${end[1]}?steps=true&geometries=geojson&access_token=${mapboxgl.accessToken}`,
+                `https://api.mapbox.com/directions/v5/mapbox/walking/${start[0]},${start[1]};${end[0]},${end[1]}?steps=true&&geometries=geojson&&access_token=${mapboxgl.accessToken}`,
                 { method: 'GET' }
         );
 
@@ -562,6 +596,112 @@ function addData(map, layer, data) {
 
 }
 
+export function updateLocation() {
+        let newlocation = initialFly();
+        return newlocation
+}
+
+function randomGeo(center, radius) {
+        var y0 = center[0];
+        var x0 = center[1];
+        var rd = radius / 111300; //about 111300 meters in one degree
+
+        var u = Math.random();
+        var v = Math.random();
+
+        var w = rd * Math.sqrt(u);
+        var t = 2 * Math.PI * v;
+        var x = w * Math.cos(t);
+        var y = w * Math.sin(t);
+
+        //Adjust the x-coordinate for the shrinking of the east-west distances
+        var xp = x / Math.cos(y0);
+
+        var newlat = y + y0;
+        var newlon = x + x0;
+        var newlon2 = xp + x0;
+
+        return [parseFloat(newlat.toFixed(5)), parseFloat(newlon.toFixed(5))]
+}
+
+var options = {
+        enableHighAccuracy: true,
+        trackUserLocation: true,
+
+};
+
+export function success(pos) {
+        let long = pos.coords.longitude;
+        let lat = pos.coords.latitude;
+
+        let userlocation = [long, lat]
+        localStorage.setItem('userLong', long)
+        localStorage.setItem('userLat', lat)
+        console.log('items stored')
+        user = marker(userlocation);
+
+        spawnBox(userlocation);
+
+}
+
+export function error(err) {
+        console.warn(`ERROR(${err.code}): ${err.message}`);
+}
+
+async function spawnBox(userlocation) {
+        //let searchradius = 1500;
+        //let filter = makeRadius(userlocation, searchradius);
+        //addData(map, radiusLayer, filter);
+
+        let box1 = randomGeo(userlocation, radius)
+        console.log(userlocation)
+        let box2 = randomGeo(userlocation, radius)
+        let box3 = randomGeo(userlocation, radius)
+        let boxlist = [box1, box2, box3]
+
+        if (localStorage.getItem('box1') == null) {
+                localStorage.setItem('box1', JSON.stringify(box1))
+                console.log("Spawned new boxes")
+
+        } else {
+                console.log("Read the boxes stored before")
+        }
+
+        if (localStorage.getItem('box2') == null) {
+                localStorage.setItem('box2', JSON.stringify(box2))
+        }
+
+        if (localStorage.getItem('box3') == null) {
+                localStorage.setItem('box3', JSON.stringify(box3))
+        }
+
+
+        distA = [calculateDistance(boxlist[0], userlocation),
+        calculateDistance(boxlist[1], userlocation),
+        calculateDistance(boxlist[2], userlocation)];
+
+        // boxstatus = localStorage.getItem('box_status')
+        console.log(distA)
+        console.log(boxstatus)
+
+        closestItem = whichBox(boxlist, boxstatus, distA, userlocation)
+        console.log(`The spawned boxes are ${boxlist}`)
+        console.log(`The generated route is towards are ${boxlist[closestItem]}`)
+        console.log(boxlist[closestItem])
+        console.log(boxlist)
+
+        console.log(boxlist[closestItem]);
+        console.log(boxlist)
+        //getRoute(userlocation, boxlist[closestItem])
+
+
+        return closestItem;
+
+}
+
+export var closestItemI = closestItem;
+
+
 export default function approvelocation(counter, no) {
         console.log("Watch location has been approved.")
         if (counter == no) {
@@ -577,36 +717,6 @@ export default function approvelocation(counter, no) {
         }
 
 }
-
-export function updateLocation() {
-        let newlocation = initialFly();
-        return newlocation
-}
-
-function randomGeo(center, radius) {
-        var y0 = center[0];
-        var x0 = center[1];
-        var rd = radius / 111300; //about 111300 meters in one degree
-    
-        var u = Math.random();
-        var v = Math.random();
-    
-        var w = rd * Math.sqrt(u);
-        var t = 2 * Math.PI * v;
-        var x = w * Math.cos(t);
-        var y = w * Math.sin(t);
-    
-        //Adjust the x-coordinate for the shrinking of the east-west distances
-        var xp = x / Math.cos(y0);
-    
-        var newlat = y + y0;
-        var newlon = x + x0;
-        var newlon2 = xp + x0;
-    
-        return [parseFloat(newlat.toFixed(5)), parseFloat(newlon.toFixed(5))]
-    
-    }
-
 
 
 

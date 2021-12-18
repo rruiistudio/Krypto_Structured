@@ -48,7 +48,7 @@ export async function spawnBox(userlocation) {
     let box3 = randomGeo(userlocation, radius)
 
     if (localStorage.getItem('box1') == null) {
-        localStorage.setItem('box1', box1)
+        localStorage.setItem('box1', JSON.stringify(box1))
         console.log("Spawned new boxes")
 
     } else {
@@ -56,11 +56,11 @@ export async function spawnBox(userlocation) {
     }
 
     if (localStorage.getItem('box2') == null) {
-        localStorage.setItem('box2', box2)
+        localStorage.setItem('box2', JSON.stringify(box2))
     }
 
     if (localStorage.getItem('box3') == null) {
-        localStorage.setItem('box3', box3)
+        localStorage.setItem('box3', JSON.stringify(box3))
     }
 
 

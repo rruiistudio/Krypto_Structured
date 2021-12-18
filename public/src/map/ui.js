@@ -185,6 +185,7 @@ export function appendLocation() {
 
     function countboxes() {
         let boxstatus = localStorage.getItem('box_status')
+        console.log(boxstatus)
         boxstatus = JSON.parse(boxstatus)
         console.log(`Box status retrieved from storage is: ${boxstatus}`)
 
@@ -330,10 +331,10 @@ function welcomeback() {
 
 }
 
-
+button.addEventListener('click', changeScreen);
 if (boxstatus[0] == 'notFound') {
     console.log('Beginning game from scratch')
-    button.addEventListener('click', changeScreen);
+    
 }
 
 if (boxstatus.includes('found')) {
