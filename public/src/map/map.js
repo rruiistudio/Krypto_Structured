@@ -1,5 +1,6 @@
 import mobileAndTabletCheck, { redirect } from '../utility/utilities.js';
 import routetoggle from './ui.js';
+import randomGeo from '../login/login.js'
 
 
 //DECLARE VARIABLES
@@ -17,7 +18,8 @@ let boxlist;
 let found;
 
 let watchlocation;
-let popupID;
+let user;
+let userlocation;
 
 
 let playerID = localStorage.getItem('walletID');
@@ -50,7 +52,10 @@ if (localStorage.getItem('userLong') & localStorage.getItem('userLat')) {
         coords = [localStorage.getItem('userLong'), localStorage.getItem('userLat')]
         let userlocation = [parseFloat(coords[0]), parseFloat(coords[1])];
         console.log(`User location retrieved from storage: ${userlocation}`)
-        let user = marker(userlocation);
+        user = marker(userlocation);
+}else {
+        userlocation = updateLocation();
+        user = marker(userlocation);
 }
 
 export var map = setupMap([-2.24, 53.48]);
@@ -353,24 +358,32 @@ function updateMarker(marker, center) {
 
 function storeBox() {
         let box1 = localStorage.getItem('box1');
-        if(box1!==null){
+        if (box1 !== null) {
                 box1 = box1.split(',')
                 box1 = [parseFloat(box1[0]), parseFloat(box1[1])]
         } else {
                 console.log('Boxes could not be found- game started without')
+                box1 = randomGeo(userlocation, radius);
+                localStorage.setItem('box1', box1);
         }
 
         let box2 = localStorage.getItem('box2');
-        if(box2!==null){
+        if (box2 !== null) {
                 box2 = box2.split(',')
                 box2 = [parseFloat(box2[0]), parseFloat(box2[1])]
+        }else{
+                box1 = randomGeo(userlocation, radius);
+                localStorage.setItem('box2', box2);
         }
 
         let box3 = localStorage.getItem('box3');
-        //box3 = box3.split(',')
-        if(box3!==null){
+        box3 = box3.split(',')
+        if (box3 !== null) {
                 box3 = box3.split(',')
                 box3 = [parseFloat(box3[0]), parseFloat(box3[1])]
+        }else{
+                box1 = randomGeo(userlocation, radius);
+                localStorage.setItem('box3', box3);
         }
 
         boxlist = [box1, box2, box3];
