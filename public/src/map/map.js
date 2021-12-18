@@ -23,17 +23,18 @@ let popupID;
 let playerID = localStorage.getItem('walletID');
 console.log(`User walled id retrieved from storage: ${playerID}`)
 
-function initialStatus() {
-        if (localStorage.getItem('box_status') == null) {
-                let status = ['notFound', 'notFound', 'notFound']
-                localStorage.setItem('box_status', JSON.stringify(status))
-        }
+let boxstatus;
+
+if (localStorage.getItem('box_status')) {
+        boxstatus = JSON.parse(localStorage.getItem('box_status'));
+        return boxstatus
+
+} else {
+        let status = ['notFound', 'notFound', 'notFound']
+        localStorage.setItem('box_status', JSON.stringify(status))
 }
-initialStatus();
 
-let boxstatus = JSON.parse(localStorage.getItem('box_status'));
 console.log(`Box status retrieved from storage: ${boxstatus}`)
-
 //--------------------------------------------------------------------------------------------------------------------//
 
 // MAPBOX ACCESS TOKEN ----> THIS WILL HAVE TO BE REPLACED WITH A PAID VERSION OF MAPBOX
@@ -46,12 +47,15 @@ redirect();
 //INITIALIZE MAP
 
 // add a buffer --> on map load in here
-coords = [localStorage.getItem('userLong'), localStorage.getItem('userLat')]
-let userlocation = [parseFloat(coords[0]), parseFloat(coords[1])];
-console.log(`User location retrieved from storage: ${userlocation}`)
+if (localStorage.getItem('userLong') & localStorage.getItem('userLat')) {
+        coords = [localStorage.getItem('userLong'), localStorage.getItem('userLat')]
+        let userlocation = [parseFloat(coords[0]), parseFloat(coords[1])];
+        console.log(`User location retrieved from storage: ${userlocation}`)
+        let user = marker(userlocation);
+}
 
 export var map = setupMap([-2.24, 53.48]);
-let user = marker(userlocation);
+
 
 
 //INITIALIZE BOXES
