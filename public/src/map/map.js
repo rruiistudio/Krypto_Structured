@@ -27,7 +27,6 @@ let boxstatus;
 
 if (localStorage.getItem('box_status')) {
         boxstatus = JSON.parse(localStorage.getItem('box_status'));
-        return boxstatus
 
 } else {
         let status = ['notFound', 'notFound', 'notFound']
