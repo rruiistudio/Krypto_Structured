@@ -6,7 +6,7 @@ function createscreen(){
     const loaddiv = document.createElement('div'); 
     const logo = document.createElement('img');
 
-    logo.src = "../images/Loading_Screen.jpg";
+    logo.src = "../images/win_background.png";
     logo.style.width = "100%"
     logo.style.height = "107%"
     logo.style.marginTop= "-5%"
