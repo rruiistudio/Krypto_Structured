@@ -42,107 +42,7 @@ location();
 mapboxgl.accessToken = 'pk.eyJ1IjoicnJ1aWlkZXYiLCJhIjoiY2t2N3FtMjFhMDFmNzJvbzdidnpkaGxweiJ9.R0WQ2KnHg8EQ9wyWPYLQFg';
 
 export async function spawnBox(userlocation) {
-    // first - get the user's settlement
-
-
-    /*
-    var point = [userlocation[0], userlocation[1]]
-    const tileset = "mapbox.mapbox-streets-v8";
-    const climit = 48;
-    const cradius = 6000;
-    const clayer = ['place_label', 'country', 'state']
-    const querysettlement = await fetch(
-        `https://api.mapbox.com/v4/${tileset}/tilequery/${point[0]},${point[1]}.json?radius=${cradius}&limit=${climit}&layers=${clayer}&access_token=${mapboxgl.accessToken}`,
-        { method: 'GET' }
-    );
-
-    var place = await querysettlement.json();
-    console.log(place.features.length)
-
-    let placetag = []
-
-    place.features.forEach(el => {
-        let d = el.properties.tilequery.distance
-        placetag.push(d)
-        return placetag
-    })
-
-    var spawnboxcenter
-
-    if (place.features.length == 0) {
-        spawnboxcenter = userlocation
-        console.log('Could not find the furthest point, using user location instead.')
-    } else {
-        let maxdistance = Math.max(parseFloat(placetag))
-        let i = placetag.indexOf(maxdistance);
-        let furthestplace = place.features[i].geometry.coordinates
-        spawnboxcenter = furthestplace
-        console.log(`Found the furthest place around the user settlement = ${furthestplace}`)
-    }
-
-
-    const limit = 48;
-    const radius = 3500; // in meters
-    const layers = ['poi_label'];
-    const geometry = "point"
-    const query = await fetch(
-        `https://api.mapbox.com/v4/${tileset}/tilequery/${spawnboxcenter[0]},${spawnboxcenter[1]}.json?radius=${radius}&limit=${limit}&layers=${layers}&geometry=${geometry}&access_token=${mapboxgl.accessToken}`,
-        { method: 'GET' }
-    );
-    const json = await query.json();
-    console.log(json)
-
-    let jsoncoords = []
-
-    jsoncoords = getCoords(json, jsoncoords)
-
-    function getCoords(list, array) {
-        list.features.forEach(el => {
-            let c = el.geometry.coordinates
-            let f = [c[0], c[1]]
-            array.push(f)
-            return array
-        })
-        return array
-    }
-
-    let selected = []
-    console.log(userlocation)
-    let distance = []
-    jsoncoords.forEach(el => {
-        let v = calculateDistance(userlocation, el)
-        distance.push(v)
-        boxproximity(distance, selected, jsoncoords)
-        return distance
-    })
-
-    if (selected.length == 0) {
-        selected = jsoncoords.slice(Math.max(jsoncoords.length - 3, 0))
-        console.log('No required distance found, boxes are closer than usual.')
-    } else {
-        selected = selected.slice(Math.max(selected.length - 3, 0))
-        console.log('Found places at the correct distance.')
-    }
-
-
-    //selected = selected.slice(Math.max(selected.length - 3, 0))
-    console.log(selected)
-
-
-    function boxproximity(list, array, coords) {
-        list.forEach(el => {
-            let i = list.indexOf(el);
-            let newitem = coords[i]
-            if (el > 400 & !array.includes(newitem)) { //DONT FORGET TO MODIFY 
-                array.push(newitem);
-            }
-            return array
-        })
-    }
-
-    */
-
-
+ 
    function  randomGeo(center, radius) {
         var y0 = center[0];
         var x0 = center[1];
@@ -266,6 +166,7 @@ export default function loginSuccess() {
 
         if (bLen == 0) {
             console.log('No more boxes, game ended')
+            window.location.href = '/html/ongameend.html';
         } else {
             console.log('Game continues.')
         }
