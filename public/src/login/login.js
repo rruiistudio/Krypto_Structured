@@ -43,18 +43,36 @@ location();
 mapboxgl.accessToken = 'pk.eyJ1IjoicnJ1aWlkZXYiLCJhIjoiY2t2N3FtMjFhMDFmNzJvbzdidnpkaGxweiJ9.R0WQ2KnHg8EQ9wyWPYLQFg';
 
 export async function spawnBox(userlocation) {
+    // first - get the user's settlement
     var point = [userlocation[0], userlocation[1]]
-    const limit = 48;
-    const radius = 5000; // in meters
     const tileset = "mapbox.mapbox-streets-v8";
-    const layers = ['road'];
-    const query = await fetch(
-            `https://api.mapbox.com/v4/${tileset}/tilequery/${point[0]},${point[1]}.json?radius=${radius}&limit=${limit}&layers=${layers}&access_token=${mapboxgl.accessToken}`,
-            { method: 'GET' }
+    const climit = 48;
+    const cradius = 15000;
+    const clayer = ['place_label']
+    const querysettlement = await fetch(
+        `https://api.mapbox.com/v4/${tileset}/tilequery/${point[0]},${point[1]}.json?radius=${cradius}&limit=${climit}&layers=${clayer}&access_token=${mapboxgl.accessToken}`,
+        { method: 'GET' }
     );
-    const json = await query.json();
 
-    console.log(json)
+    var place = await querysettlement.json();
+    console.log(place)
+    console.log(place.features[0].properties.class)
+
+
+
+/*
+    const limit = 48;
+    const radius = 1000; // in meters
+    
+    const layers = ['road'];
+    const geometry = "point"
+    const query = await fetch(
+        `https://api.mapbox.com/v4/${tileset}/tilequery/${point[0]},${point[1]}.json?radius=${radius}&limit=${limit}&layers=${layers}&geometry=${geometry}&access_token=${mapboxgl.accessToken}`,
+        { method: 'GET' }
+    );
+    const json = await query.json(); 
+
+    console.log(json)*/
 
     let jsoncoords = []
 
@@ -70,7 +88,7 @@ export async function spawnBox(userlocation) {
         })
         return array
     }
-    
+
 
     let selected = []
     console.log(userlocation)
@@ -83,7 +101,7 @@ export async function spawnBox(userlocation) {
     })
 
     console.log(distance)
-   
+
 
     selected = selected.slice(Math.max(selected.length - 3, 0))
     console.log(selected[0])
@@ -93,7 +111,7 @@ export async function spawnBox(userlocation) {
         list.forEach(el => {
             let i = list.indexOf(el);
             let newitem = coords[i]
-            if (el > 700 & !array.includes(newitem)) {
+            if (el > 100 & !array.includes(newitem)) { //DONT FORGET TO MODIFY 
                 array.push(newitem);
             }
 
@@ -101,29 +119,29 @@ export async function spawnBox(userlocation) {
         })
     }
 
-  
+
     console.log(json)
 
-   // localStorage.removeItem('box_found')
+    // localStorage.removeItem('box_found')
 
-//    localStorage.removeItem('box1')
-  //  localStorage.removeItem('box2')
-   // localStorage.removeItem('box3')
+    //    localStorage.removeItem('box1')
+    //  localStorage.removeItem('box2')
+    // localStorage.removeItem('box3')
 
     if (localStorage.getItem('box1') == null) {
-            localStorage.setItem('box1', selected[0])
-            console.log("Spawned new boxes")
+        localStorage.setItem('box1', selected[0])
+        console.log("Spawned new boxes")
 
     } else {
         console.log("Read the boxes stored before")
     }
 
     if (localStorage.getItem('box2') == null) {
-            localStorage.setItem('box2', selected[1])
+        localStorage.setItem('box2', selected[1])
     }
 
     if (localStorage.getItem('box3') == null) {
-            localStorage.setItem('box3', selected[2])
+        localStorage.setItem('box3', selected[2])
     }
 
     return json;
@@ -201,7 +219,7 @@ export default function loginSuccess() {
         }
 
         console.log(id)
-    
+
         if (status == 'listed') {
             console.log('did something')
 
@@ -233,23 +251,23 @@ export default function loginSuccess() {
         } else {
             // empty field
             clearInput();
-    
+
             if (value.length == 0) {
                 console.log('this is not ok')
                 verif.style.animation = 'shake 1s'
-    
+
             } else {
                 count++
                 console.log(count);
                 if (count < 2) {
                     t = document.createTextNode('Authentication failed, try again.')
                 }
-    
+
                 if (count > 2) {
                     t = document.createTextNode(' Are you sure you have a token?')
                 }
             }
-    
+
             fail.appendChild(t);
             fail.style.animation = 'fadeIn 1s'
             fail.style.fontFamily = 'Arial'
@@ -274,4 +292,4 @@ let button = document.getElementById('verif');
 
 redirect();
 loadconfirm();
-button.addEventListener('click',  loginSuccess);
+button.addEventListener('click', loginSuccess);
