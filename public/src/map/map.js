@@ -109,6 +109,9 @@ function successLocation(position) {
         lat = position.coords.latitude;
         let heading = position.coords.heading;
 
+        let accuracy = position.coords.accuracy;
+        console.log(accuracy)
+
         console.log(heading)
 
         let watchlocation = [long, lat]
@@ -119,7 +122,10 @@ function successLocation(position) {
         let center = [((watchlocation[0] + boxlist[closestItem][0]) / 2), ((watchlocation[1] + boxlist[closestItem][1]) / 2)]
         console.log(center)
 
-        updateMarker(user, watchlocation);
+        /*
+        if (accuracy < 10) {
+                updateMarker(user, watchlocation);
+        }*/
 
         let filter = makeRadius(userlocation, searchradius);
         addData(map, radiusLayer, filter);
