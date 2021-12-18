@@ -43,6 +43,9 @@ mapboxgl.accessToken = 'pk.eyJ1IjoicnJ1aWlkZXYiLCJhIjoiY2t2N3FtMjFhMDFmNzJvbzdid
 
 export async function spawnBox(userlocation) {
     // first - get the user's settlement
+
+
+    /*
     var point = [userlocation[0], userlocation[1]]
     const tileset = "mapbox.mapbox-streets-v8";
     const climit = 48;
@@ -137,15 +140,49 @@ export async function spawnBox(userlocation) {
         })
     }
 
+    */
 
-    // localStorage.removeItem('box_found')
 
-    //    localStorage.removeItem('box1')
-    //  localStorage.removeItem('box2')
-    // localStorage.removeItem('box3')
+   function  randomGeo(center, radius) {
+        var y0 = center[0];
+        var x0 = center[1];
+        var rd = radius / 111300; //about 111300 meters in one degree
+        
+        var u = Math.random();
+        var v = Math.random();
+ 
+        var w = rd * Math.sqrt(u);
+        var t = 2 * Math.PI * v;
+        var x = w * Math.cos(t);
+        var y = w * Math.sin(t);
+ 
+        //Adjust the x-coordinate for the shrinking of the east-west distances
+        var xp = x / Math.cos(y0);
+ 
+        var newlat = y + y0;
+        var newlon = x + x0;
+        var newlon2 = xp + x0;
+ 
+        return [parseFloat(newlat.toFixed(5)), parseFloat(newlon.toFixed(5))]
+ 
+    }
+
+    let radius = 500
+
+    let box1 = randomGeo(userlocation, radius)
+    console.log(box1)
+    console.log(userlocation)
+    let box2 = randomGeo(userlocation, radius)
+    let box3 = randomGeo(userlocation, radius)
+
+    //localStorage.removeItem('box_status')
+
+    //localStorage.removeItem('box1')
+    //localStorage.removeItem('box2')
+    //localStorage.removeItem('box3')
 
     if (localStorage.getItem('box1') == null) {
-        localStorage.setItem('box1', selected[0])
+        localStorage.setItem('box1', box1)
         console.log("Spawned new boxes")
 
     } else {
@@ -153,14 +190,14 @@ export async function spawnBox(userlocation) {
     }
 
     if (localStorage.getItem('box2') == null) {
-        localStorage.setItem('box2', selected[1])
+        localStorage.setItem('box2', box2)
     }
 
     if (localStorage.getItem('box3') == null) {
-        localStorage.setItem('box3', selected[2])
+        localStorage.setItem('box3', box3)
     }
 
-    return json;
+    //return json;
 
 }
 
@@ -176,7 +213,6 @@ const fail = document.createElement('p')
 let count = 0;
 let status;
 let id;
-let boxesId;
 let g;
 
 // API CALL TO THE REGISTERED USERS 

@@ -44,10 +44,6 @@ function handledata(response) {
 
     if (bLen == 0) {
         console.log('No more boxes, game ended');
-        //localStorage.remove('walletID')
-        //localStorage.remove('box1')
-        //localStorage.remove('box2')
-        //localStorage.remove('box3')
         window.location.href = '/html/ongameend.html';
     } else {
         console.log('Game continues.')

@@ -46,8 +46,9 @@
     let c = document.getElementById('confetti')
     t.style.paddingRight = '15%'
     t.style.paddingLeft = '15%'
+    t.style.fontSize = '25px'
+    t.style.textAlign = 'center'
 
-    textarea.innerHTML = 'hello world';
     let user = localStorage.getItem('walletID')
 
     let data = { walletId: user };
@@ -124,4 +125,6 @@
 
     button.addEventListener('click', next)
 </script>
+
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 </html>

@@ -16,6 +16,7 @@ let searchradius = 2;
 let distA = [];
 let elIndex;
 let boxlist;
+let found;
 
 
 //location();
@@ -226,8 +227,8 @@ function unlockBox(distance, closestItem, boxstatus) {
         }
         if (distance < 25) {
                 console.log('Box found, hooray!')
+                passboxfound();
                 convertInactive(boxstatus, closestItem);
-                passboxfound(); // change this to nothing in case the box 
                 window.location.href = '/html/unlockbox.html';
         }
 }
@@ -250,22 +251,23 @@ function passboxfound() {
         let URL = "https://api.kryptomon.co/egg-hunt/getUser.php";
         var api_link = 'https://api.kryptomon.co/egg-hunt/openBox.php';
         var userID = localStorage.getItem('walletID')
+        let data = { walletId: userID };
         console.log(userID)
 
         // make a call to the current API every time to only get the boxes available
-        buttonclickhandler();
+        buttonclickhandler(data);
 
-        function buttonclickhandler() {
+        function buttonclickhandler(data) {
                 var getInfo = JSON.stringify(data);
                 console.log(getInfo)
-
                 $.post(URL, getInfo, handleboxes)
         }
 
         function handleboxes(response) {
-                g = JSON.parse(response)
+                let g = JSON.parse(response)
                 console.log(g)
                 let boxes = g.boxes;
+                console.log(boxes)
                 var b = parseFloat(boxes[0].ID);
                 console.log(b)
 
@@ -282,9 +284,12 @@ function passboxfound() {
 
         function handledata(res) {
                 let g = JSON.parse(res)
-
+                console.log(g)
+                found = true; 
                 if (g == 'success') {
                         console.log(`Successfully passed ${b} as unlocked belonging to user ${userID}`)
+                        return found
+
                 } else {
                         console.log('There was an error passing the box to the API')
                 }
