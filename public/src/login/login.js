@@ -62,17 +62,19 @@ export async function spawnBox(userlocation) {
     place.features.forEach(el => {
         let d = el.properties.tilequery.distance
         placetag.push(d)
+        console.log(placetag)
         return placetag
     })
 
     var spawnboxcenter
 
-    if (place.features.length = 0) {
+    if (place.features.length == 0) {
         spawnboxcenter = userlocation
         console.log('Could not find the furthest point, using user location instead.')
     } else {
         let maxdistance = Math.max(parseFloat(placetag))
-        let furthestplace = place.features[placetag.indexOf(maxdistance)].geometry.coordinates
+        let i = placetag.indexOf(maxdistance);
+        let furthestplace = place.features[i].geometry.coordinates
         spawnboxcenter = furthestplace
         console.log(`Found the furthest place around the user settlement = ${furthestplace}`)
     }
