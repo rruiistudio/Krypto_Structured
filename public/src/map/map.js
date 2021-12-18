@@ -129,27 +129,36 @@ function successLocation(position) {
 
 
         let isMoving = map.isMoving();
+        let stopfly = false;
         console.log(isMoving)
 
         if (isMoving == false) {
-                setTimeout(moveControls, 10000)
+                stopfly = false;
+                setTimeout(moveControls, 5000)
         }
 
+        if (isMoving == true) {
+                stopfly = true;
+        }
+
+        let bearing = turf.bearing(watchlocation, boxlist[closestItem])
+
         function moveControls() {
-                if (heading == null) {
-                        let bearing = turf.bearing(watchlocation, boxlist[closestItem])
-                        map.flyTo({
-                                center: watchlocation,
-                                zoom: 20,
-                                bearing: bearing
-                        })
-                } else {
-                        console.log(heading);
-                        map.flyTo({
-                                center: watchlocation,
-                                zoom: 20,
-                                bearing: heading
-                        })
+                if (stopfly == false) {
+                        if (heading == null) {
+                                map.flyTo({
+                                        center: watchlocation,
+                                        zoom: 20,
+                                        bearing: bearing
+                                })
+                        } else {
+                                console.log(heading);
+                                map.flyTo({
+                                        center: watchlocation,
+                                        zoom: 20,
+                                        bearing: bearing
+                                })
+                        }
                 }
         }
 
@@ -170,7 +179,7 @@ function successLocation(position) {
                 map.flyTo({
                         center: watchlocation,
                         zoom: 22,
-                        bearing: heading
+                        bearing: bearing
                 })
 
         }
@@ -180,7 +189,7 @@ function successLocation(position) {
                 map.flyTo({
                         center: center,
                         zoom: 15,
-                        bearing: heading
+                        bearing: bearing
                 })
         }
 
