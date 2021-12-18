@@ -4,10 +4,6 @@ import approvelocation from './map.js'
 import countdown from '../utility/countdown.js'
 let routetoggle = false;
 
-import map from './map.js'
-import initialFly from './mapfunctions.js';
-
-//console.log(userlocation)
 
 //asset sources:
 let container = document.getElementById('artwork_container');
@@ -77,7 +73,6 @@ function replace(elements) {
     art.id = "art";
     art.src = elements[1];
     art.style.width = "25vw";
-
 
     prompt.id = "p";
     prompt.style.width = "70vw";
@@ -213,7 +208,6 @@ export function appendLocation() {
 
     function toggleNav() {
         count++
-        console.log('clickedy clicked')
 
         if (count == 1) {
             let b = document.getElementById('navbox');
@@ -299,7 +293,6 @@ function changeScreen() {
     approvelocation(counter, 0)
     ui.style.backgroundColor = 'transparent';
 
-
     if (counter < 2) {
         console.log(counter)
         appendElement(screens[counter]);
@@ -321,10 +314,7 @@ function changeScreen() {
 
 }
 
-
-
 function welcomeback() {
-    //let routetoggle = false; 
     let secondcounter = 0;
     secondcounter++
 

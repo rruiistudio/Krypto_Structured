@@ -2,6 +2,7 @@
 
 import loadconfirm, { redirect } from '../utility/utilities.js';
 let text = document.getElementById('verif');
+let radius = 1000;
 
 
 //GET LOCATION AND BOXES BEFORE THE REST OF THE APP IS LOADED
@@ -64,7 +65,7 @@ export async function spawnBox(userlocation) {
  
     }
 
-    let radius = 500
+ 
 
     let box1 = randomGeo(userlocation, radius)
     console.log(box1)

@@ -1,7 +1,5 @@
 import mobileAndTabletCheck, { redirect } from '../utility/utilities.js';
 import routetoggle from './ui.js';
-//import userlocation from './mapfunctions.js'; // import initial user location
-import location from './mapfunctions.js';
 
 
 //DECLARE VARIABLES
@@ -18,13 +16,13 @@ let elIndex;
 let boxlist;
 let found;
 
+let watchlocation;
+let popupID;
 
-//location();
+
 let playerID = localStorage.getItem('walletID');
 console.log(playerID)
 
-//localStorage.removeItem('box_status')
-// initialize the boxstatus to be null 
 function initialStatus() {
         if (localStorage.getItem('box_status') == null) {
                 let status = ['notFound', 'notFound', 'notFound']
@@ -71,7 +69,7 @@ export var closestItem = whichBox(boxlist, boxstatus, distA)
 console.log(closestItem)
 
 console.log(boxlist[closestItem])
-console.log(boxlist)
+console.log(`The spawned boxes are ${boxlist}`)
 mysterybox(boxlist[closestItem]);
 
 
@@ -83,7 +81,7 @@ getRoute(userlocation, boxlist[closestItem]) // gets Initial route
 
 
 // UTILITY FUNCTIONS
-
+//redundant function
 function initialFly() {
         navigator.geolocation.getCurrentPosition((position) => {
                 map.flyTo({
@@ -104,6 +102,7 @@ function initialFly() {
 
 //-------------------------------------------------------------------------------------------------------------------//
 
+
 function successLocation(position) {
         console.log(position)
         long = position.coords.longitude;
@@ -111,30 +110,30 @@ function successLocation(position) {
         let heading = position.coords.heading;
 
         let accuracy = position.coords.accuracy;
-        console.log(accuracy)
-        let watchlocation = [long, lat]
-
-        console.log(heading)
+        console.log(`The current tracking accuracy is ${accuracy}`)
+        watchlocation = [long, lat]
+        console.log(`The user current location is ${watchlocation}`)
 
         updateMarker(user, watchlocation);
-        getRoute(watchlocation, boxlist[closestItem])
+        getRoute(watchlocation, boxlist[closestItem]);
+
 
         let newdistance = calculateDistance(watchlocation, boxlist[closestItem])
-        console.log(watchlocation)
+        updateboxdistance(newdistance);
+        
+
 
         let center = [((watchlocation[0] + boxlist[closestItem][0]) / 2), ((watchlocation[1] + boxlist[closestItem][1]) / 2)]
-        console.log(center)
+        console.log(`The middle of the route is ${center}`)
 
         let filter = makeRadius(userlocation, searchradius);
         addData(map, radiusLayer, filter);
-        console.log('watching location successfully')
         unlockBox(newdistance, closestItem, boxstatus);
         let bearing = turf.bearing(watchlocation, boxlist[closestItem])
 
         let orientation
         orientation = getHeading();
-        console.log(orientation)
-
+        console.log(`The user direction is ${orientation}`)
 
         let isMoving = map.isMoving();
         let stopfly = false;
@@ -184,7 +183,7 @@ function successLocation(position) {
         }
 
         function onzoomin() {
-                console.log('ive definitely zoomedin on that one')
+                console.log('Zooming in')
                 map.flyTo({
                         center: watchlocation,
                         zoom: 22,
@@ -196,7 +195,7 @@ function successLocation(position) {
 
         function onzoomout() {
                 stopfly = true;
-                console.log('deeeefintely zooming out now')
+                console.log('Zooming out')
                 map.flyTo({
                         center: center,
                         zoom: 15,
@@ -205,25 +204,29 @@ function successLocation(position) {
 
         }
 
+        return watchlocation
+}
 
-
-        return userlocation
+function updateboxdistance(text) {
+        if (document.getElementById('boxdist')) {
+                document.getElementById('boxdist').innerHTML = text;
+                console.log(`The current distance to the box is ${text}`)
+                return boxpop
+        }
 }
 
 function unlockBox(distance, closestItem, boxstatus) {
         if (distance < 250) {
                 let m = document.getElementById('user');
-                let b = document.getElementById('cont')
                 m.classList.remove("marker");
                 m.classList.add("closemarker");
-                console.log('Closer to the target!')
+                console.log('Getting closer to the target!')
         }
         if (distance < 150) {
                 let m = document.getElementById('user');
                 m.classList.remove("closemarker");
                 m.classList.add("closermarker");
-                console.log('Super close to the target!')
-                // can add screen prompt here to show proximity
+                console.log('Getting very close to the target!')
         }
         if (distance < 25) {
                 console.log('Box found, hooray!')
@@ -245,7 +248,7 @@ function convertInactive(list, index) {
         el.classList.add('boxfound');
         return list
 }
-// TO FIX THIS ONE
+
 // change this to index 0 if the boxes are being removed from the API call every time.
 function passboxfound() {
         let URL = "https://api.kryptomon.co/egg-hunt/getUser.php";
@@ -285,7 +288,7 @@ function passboxfound() {
         function handledata(res) {
                 let g = JSON.parse(res)
                 console.log(g)
-                found = true; 
+                found = true;
                 if (g == 'success') {
                         console.log(`Successfully passed ${b} as unlocked belonging to user ${userID}`)
                         return found
@@ -350,48 +353,9 @@ function updateMarker(marker, center) {
 
 // 3: ADD MYSTERY BOXES: 
 
-// you need to store the updated userlocation in a variable too actually
-
-/*
-export async function spawnBox(userlocation) {
-        console.log("the spawn box function is running")
-        var point = [userlocation[0], userlocation[1]]
-        const limit = 3;
-        const radius = 1500; // in meters
-        const tileset = "mapbox.mapbox-streets-v8";
-        const layers = ['place_label'];
-        const query = await fetch(
-                `https://api.mapbox.com/v4/${tileset}/tilequery/${point[0]},${point[1]}.json?radius=${radius}&limit=${limit}&layers=${layers}&access_token=${mapboxgl.accessToken}`,
-                { method: 'GET' }
-        );
-        const json = await query.json();
-    
-      
-        console.log(json)
-
-        if (localStorage.getItem('box1') == null) {
-                let b = localStorage.setItem('box1', json.features[0].geometry.coordinates)
-                console.log(b);
-
-        }
-
-        if (localStorage.getItem('box2') == null) {
-                localStorage.setItem('box2', json.features[1].geometry.coordinates)
-        }
-
-        if (localStorage.getItem('box3') == null) {
-                localStorage.setItem('box3', json.features[2].geometry.coordinates)
-        }
-
-        return json;
-
-}
-*/
-
-
 function storeBox() {
         console.log("the store box function is ok")
-        //spawnBox(userlocation);
+
         let box1 = localStorage.getItem('box1');
         box1 = box1.split(',')
         box1 = [parseFloat(box1[0]), parseFloat(box1[1])]
@@ -410,7 +374,6 @@ function storeBox() {
         return boxlist
 }
 
-//TO TEST ALL OF THIS 
 
 // only load markers for one box at a time
 function mysterybox(element) {
@@ -418,13 +381,21 @@ function mysterybox(element) {
         el.classList.add('mark');
         el.id = "boxdiv";
 
+        let currentdistance
+
+        if (typeof watchlocation === 'undefined') {
+                currentdistance = calculateDistance(element, userlocation)
+        } else {
+                currentdistance = calculateDistance(element, watchlocation)
+        }
+
         new mapboxgl.Marker(el)
                 .setLngLat(element)
                 .setPopup(
                         new mapboxgl.Popup({ offset: 25 }) // add popups
                                 .setHTML(
                                         `<img id="mysterybox" src = "../images/Box_Closed.png" width="50px">
-                                <h3 style = "font-size: 12px; margin-top: -10%;" >Mysterybox</h3><p style = "font-size: 11px; margin-top: -11%">${calculateDistance(element, userlocation)} m away</p>
+                                <h3 style = "font-size: 12px; margin-top: -10%;" >Mysterybox</h3><p id = "boxdist"; style = "font-size: 11px; margin-top: -11%">${currentdistance} m away</p>
                                 <style >`
                                 )
                 )
@@ -575,9 +546,8 @@ function addData(map, layer, data) {
 }
 
 export default function approvelocation(counter, no) {
-        console.log("this is from the approvelocation function")
+        console.log("Watch location has been approved.")
         if (counter == no) {
-                //updateLocation();
                 addInfo(map, 'radius', filter, 'white');
                 const watchID = navigator.geolocation.watchPosition(successLocation, errorLocation,
                         {
