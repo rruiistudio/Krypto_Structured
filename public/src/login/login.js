@@ -91,13 +91,14 @@ export function randomGeo(center, radius) {
 }
 
 // LOGIN VALUES
+let value
 
 function getValue() {
     value = document.getElementById('login').value;
 }
 
 if (text) {
-    let value = text.addEventListener('click', getValue);
+    value = text.addEventListener('click', getValue);
     console.log(value)
 }
 
