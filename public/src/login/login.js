@@ -40,7 +40,7 @@ location();
 mapboxgl.accessToken = 'pk.eyJ1IjoicnJ1aWlkZXYiLCJhIjoiY2t2N3FtMjFhMDFmNzJvbzdidnpkaGxweiJ9.R0WQ2KnHg8EQ9wyWPYLQFg';
 
 export async function spawnBox(userlocation) {
- 
+
     let box1 = randomGeo(userlocation, radius)
     console.log(box1)
     console.log(userlocation)
@@ -66,11 +66,11 @@ export async function spawnBox(userlocation) {
 
 }
 
-export function  randomGeo(center, radius) {
+export function randomGeo(center, radius) {
     var y0 = center[0];
     var x0 = center[1];
     var rd = radius / 111300; //about 111300 meters in one degree
-    
+
     var u = Math.random();
     var v = Math.random();
 
@@ -96,8 +96,11 @@ function getValue() {
     value = document.getElementById('login').value;
 }
 
-let value = text.addEventListener('click', getValue);
-console.log(value)
+if (text) {
+    let value = text.addEventListener('click', getValue);
+    console.log(value)
+}
+
 const fail = document.createElement('p')
 let count = 0;
 let status;
@@ -107,9 +110,14 @@ let g;
 // API CALL TO THE REGISTERED USERS 
 
 // prevent form from refreshing on click 
-var form = document.getElementById("form");
-function handleForm(event) { event.preventDefault(); }
-text.addEventListener('click', handleForm);
+
+if (document.getElementById("form") & text) {
+    var form = document.getElementById("form");
+    function handleForm(event) { event.preventDefault(); }
+    text.addEventListener('click', handleForm);
+}
+
+
 
 
 // get document elements
@@ -163,7 +171,7 @@ export default function loginSuccess() {
         console.log(`The registered User ID is ${id}`)
 
         if (status == 'listed') {
-  
+
             if (localStorage.getItem('walletID') === null) {
                 localStorage.setItem('walletID', id);
             }
@@ -225,7 +233,10 @@ function clearInput() {
     document.getElementById('login').value = "";
 }
 
-text.addEventListener('click', loginSuccess)
+if (text){
+    text.addEventListener('click', loginSuccess)
+}
+
 
 let button = document.getElementById('verif');
 
