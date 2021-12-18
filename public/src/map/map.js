@@ -111,21 +111,23 @@ function successLocation(position) {
 
         let accuracy = position.coords.accuracy;
         console.log(accuracy)
+        let watchlocation = [long, lat]
 
         console.log(heading)
 
-        let watchlocation = [long, lat]
-        getRoute(watchlocation, boxlist[closestItem])
+        if (accuracy < 20) {
+                updateMarker(user, watchlocation);
+                getRoute(watchlocation, boxlist[closestItem])
+        }
+        
         let newdistance = calculateDistance(watchlocation, boxlist[closestItem])
         console.log(watchlocation)
 
         let center = [((watchlocation[0] + boxlist[closestItem][0]) / 2), ((watchlocation[1] + boxlist[closestItem][1]) / 2)]
         console.log(center)
 
-        /*
-        if (accuracy < 10) {
-                updateMarker(user, watchlocation);
-        }*/
+        
+       
 
         let filter = makeRadius(userlocation, searchradius);
         addData(map, radiusLayer, filter);

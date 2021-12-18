@@ -1,8 +1,15 @@
 import countdown from '../utility/countdown.js'
 
 let div
+// preload images
+let btn = '../images/nexthunt_button.png';
+let klg = '../images/krypto_logo_new.png';
+let ws = "../images/welcome_screen.png";
+let bkg = '../images/win_background.png'
 
 function createscreen(){
+
+    
     const div = document.createElement('div'); 
     const logo = document.createElement('img');
     const back = document.createElement('img')
@@ -19,10 +26,10 @@ function createscreen(){
     c.style.fontSize = '40px';
     c.style.paddingTop = '3vh';
 
-    b.src = '../images/nexthunt_button.png'
+    b.src = btn
     b.style.paddingTop = '3vh'
 
-    l.src = '../images/krypto_logo_new.png'
+    l.src = klg
     l.style.paddingBottom = '5vh'
     l.style.marginTop = '-10vh';
 
@@ -59,7 +66,7 @@ function createscreen(){
     loadbar.appendChild(loading)
     
 
-    logo.src = "../images/welcome_screen.png";
+    logo.src = ws
     logo.style.width = "100%"
     logo.style.height = "auto"
     logo.style.zIndex = "0"
@@ -77,8 +84,10 @@ function createscreen(){
     div.style.flexDirection = "column";
     div.style.position= "absolute";
 
-    back.src = '../images/win_background.png'
+    back.src = bkg
     back.style.position = 'fixed'
+    back.style.width = '200%'
+    back.style.height = 'auto'
     back.style.top = '0'
     back.style.zIndex = '-1'
 
