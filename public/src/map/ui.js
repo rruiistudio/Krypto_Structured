@@ -199,7 +199,6 @@ export function appendLocation() {
 
         boxfoundno.innerHTML = text;
 
-
         function countfound(list) {
             list.forEach(box => {
                 if (box == 'found') {
@@ -347,7 +346,7 @@ if (boxstatus[0] == 'notFound') {
     button.addEventListener('click', changeScreen);
 }
 
-if (boxstatus[0] == 'found') {
+if (boxstatus.includes('found')) {
     $('#midsection').empty();
     replace(screen3);
     console.log('Resuming game')

@@ -1,13 +1,10 @@
 //GET HTML ELEMENTS
 
 import loadconfirm, { redirect } from '../utility/utilities.js';
-//import location from '../map/mapfunctions.js';
 let text = document.getElementById('verif');
-import { calculateDistance } from '../map/mapfunctions.js';
 
 
 //GET LOCATION AND BOXES BEFORE THE REST OF THE APP IS LOADED
-// except for the initial location function, the spawn box function can be potentially moved back into map.js
 
 var options = {
     enableHighAccuracy: true,
@@ -75,12 +72,6 @@ export async function spawnBox(userlocation) {
     let box2 = randomGeo(userlocation, radius)
     let box3 = randomGeo(userlocation, radius)
 
-    //localStorage.removeItem('box_status')
-
-    //localStorage.removeItem('box1')
-    //localStorage.removeItem('box2')
-    //localStorage.removeItem('box3')
-
     if (localStorage.getItem('box1') == null) {
         localStorage.setItem('box1', box1)
         console.log("Spawned new boxes")
@@ -97,7 +88,6 @@ export async function spawnBox(userlocation) {
         localStorage.setItem('box3', box3)
     }
 
-    //return json;
 
 }
 
@@ -171,11 +161,10 @@ export default function loginSuccess() {
             console.log('Game continues.')
         }
 
-        console.log(id)
+        console.log(`The registered User ID is ${id}`)
 
         if (status == 'listed') {
-            console.log('did something')
-
+  
             if (localStorage.getItem('walletID') === null) {
                 localStorage.setItem('walletID', id);
             }
@@ -194,7 +183,6 @@ export default function loginSuccess() {
             success.style.fontSize = '40px';
 
             container.remove();
-
             success.appendChild(scontent);
             body.appendChild(success);
 
@@ -206,7 +194,6 @@ export default function loginSuccess() {
             clearInput();
 
             if (value.length == 0) {
-                console.log('this is not ok')
                 verif.style.animation = 'shake 1s'
 
             } else {
