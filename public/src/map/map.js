@@ -126,6 +126,7 @@ function successLocation(position) {
         console.log('watching location successfully')
         //replaceClass(boxstatus);
         unlockBox(newdistance, closestItem, boxstatus);
+        let bearing = turf.bearing(watchlocation, boxlist[closestItem])
 
 
         let isMoving = map.isMoving();
@@ -133,7 +134,7 @@ function successLocation(position) {
         console.log(isMoving)
 
         if (isMoving == false) {
-                setTimeout(stopfly = false, 3000)
+                stopfly = false
                 moveControls();
         }
 
@@ -141,7 +142,6 @@ function successLocation(position) {
                 stopfly = true;
         }
 
-        let bearing = turf.bearing(watchlocation, boxlist[closestItem])
 
         function moveControls() {
                 if (stopfly == false) {

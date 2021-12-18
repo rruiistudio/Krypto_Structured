@@ -298,6 +298,7 @@ function changeScreen() {
     //let routetoggle = false; 
     counter++
     approvelocation(counter, 0)
+    ui.style.backgroundColor = 'transparent';
 
 
     if (counter < 2) {
