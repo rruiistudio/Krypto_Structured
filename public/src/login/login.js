@@ -46,7 +46,7 @@ export async function spawnBox(userlocation) {
     // first - get the user's settlement
     var point = [userlocation[0], userlocation[1]]
     const tileset = "mapbox.mapbox-streets-v8";
-    const climit = 4;
+    const climit = 48;
     const cradius = 10000;
     const clayer = ['place_label', 'country', 'state']
     const querysettlement = await fetch(
