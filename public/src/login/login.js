@@ -129,7 +129,7 @@ var body = document.getElementById('cont')
 
 function startgame() {
     console.log('Success! you can start playing');
-    //window.location.href = '/html/game.html';
+    window.location.href = '/html/game.html';
 
 }
 
@@ -164,7 +164,7 @@ export default function loginSuccess() {
 
         if (bLen == 0) {
             console.log('No more boxes, game ended')
-            window.location.href = '/html/ongameend.html';
+            //window.location.href = '/html/ongameend.html';
         } else {
             console.log('Game continues.')
         }
@@ -194,7 +194,7 @@ export default function loginSuccess() {
             success.appendChild(scontent);
             body.appendChild(success);
 
-            setTimeout(startgame, 3000);
+            setTimeout(startgame, 2000);
 
 
         } else {

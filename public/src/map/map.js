@@ -260,7 +260,7 @@ function unlockBox(distance, closestItem, boxstatus) {
                 m.classList.add("closermarker");
                 console.log('Getting very close to the target!')
         }
-        if (distance < 25) { // back to 25 please
+        if (distance < 525) { // back to 25 please
                 console.log('Box found, hooray!')
                 passboxfound();
                 convertInactive(boxstatus, closestItem);
