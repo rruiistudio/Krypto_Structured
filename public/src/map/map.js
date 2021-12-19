@@ -25,7 +25,7 @@ let set = false
 let hasrun = false;
 
 
-let radius = 200; // back to 500 or 600 please
+let radius = 600; // back to 500 or 600 please
 
 
 let playerID = localStorage.getItem('walletID');
@@ -260,7 +260,7 @@ function unlockBox(distance, closestItem, boxstatus) {
                 m.classList.add("closermarker");
                 console.log('Getting very close to the target!')
         }
-        if (distance < 525) { // back to 25 please
+        if (distance < 25) { // back to 25 please
                 console.log('Box found, hooray!')
                 passboxfound();
                 convertInactive(boxstatus, closestItem);
@@ -305,6 +305,8 @@ function passboxfound() {
                 let boxes = g.boxes;
                 console.log(boxes)
                 var b = parseFloat(boxes[0].ID);
+                var message = boxes[0].category;
+                localStorage.setItem('boxmessage', message);
                 console.log(b)
 
                 var json = {

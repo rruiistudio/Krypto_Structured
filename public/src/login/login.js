@@ -2,7 +2,7 @@
 
 import loadconfirm, { redirect } from '../utility/utilities.js';
 let text = document.getElementById('verif');
-let radius = 1000;
+let radius = 600;
 
 
 //GET LOCATION AND BOXES BEFORE THE REST OF THE APP IS LOADED
@@ -164,7 +164,7 @@ export default function loginSuccess() {
 
         if (bLen == 0) {
             console.log('No more boxes, game ended')
-            //window.location.href = '/html/ongameend.html';
+            window.location.href = '/html/ongameend.html';
         } else {
             console.log('Game continues.')
         }

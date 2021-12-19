@@ -46,7 +46,7 @@
     let c = document.getElementById('confetti')
 
     let egg = "../images/Egg_Image.png";
-    let lootbox =  "../images/loot_box.png";
+    let lootbox = "../images/loot_box.png";
 
     t.style.paddingRight = '15%'
     t.style.paddingLeft = '15%'
@@ -73,16 +73,29 @@
     function handledata(response) {
         g = JSON.parse(response)
         console.log(g)
+
         status = g.status;
         console.log(status);
 
         id = g.walletID || user;
         let boxes = g.boxes;
-        var b 
 
-        if (boxes) {
-            b = boxes[0].category;
+        var b
+
+        console.log(boxes)
+
+        if (localStorage.getItem('boxmessage')) {
+            b = localStorage.getItem('boxmessage');
+        } else {
+            if (boxes.length !== 0) {
+                boxes[0].category;
+            }
         }
+
+        if(boxes.length == 0 || !boxes[0].category) {
+            window.location.href = '/html/ongameend.html'
+        }
+
         console.log(b)
 
 
@@ -122,7 +135,7 @@
     boxstatus = JSON.parse(boxstatus)
     console.log(boxstatus)
 
-    function next(){
+    function next() {
         if (boxstatus.every(isfound)) {
             console.log('all elements are found!')
             window.location.href = '/html/ongameend.html';
@@ -143,4 +156,5 @@
 </script>
 
 <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+
 </html>
