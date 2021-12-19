@@ -315,7 +315,7 @@ function passboxfound() {
                 console.log(json)
 
                 var SendInfo = JSON.stringify(json);
-                //$.post(api_link, SendInfo, handledata)
+                $.post(api_link, SendInfo, handledata)
         }
 
         function handledata(res) {
