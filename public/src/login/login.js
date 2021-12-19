@@ -129,7 +129,7 @@ var body = document.getElementById('cont')
 
 function startgame() {
     console.log('Success! you can start playing');
-    window.location.href = '/html/game.html';
+    //window.location.href = '/html/game.html';
 
 }
 
